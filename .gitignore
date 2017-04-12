@@ -53,6 +53,8 @@
 
 .project
 
+/nbproject
+
 *.prefs
 
 
