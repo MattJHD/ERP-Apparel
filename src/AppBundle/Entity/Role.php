@@ -12,10 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
  * @ORM\Table(name="Apparel_Role")
  */
-class ROLE {
+class Role {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="integer", name="idrole")
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -35,10 +35,10 @@ class ROLE {
     /**
      * 
      */
-    private $groupe;
+    private $group;
     
     /**
-     * 
+     * @ORM\OneToMany(targetEntity="Privilege", mappedBy="role")
      */
     private $privileges;
     
@@ -64,9 +64,9 @@ class ROLE {
     function getIsactive() {
         return $this->isactive;
     }
-    
-    function getGroupe() {
-        return $this->groupe;
+   
+    function getGroup() {
+        return $this->group;
     }
 
     function getPrivileges() {
@@ -94,11 +94,11 @@ class ROLE {
     function setIsactive($isactive) {
         $this->isactive = $isactive;
     }
-
-        function setGroupe($groupe) {
-        $this->groupe = $groupe;
+    
+    function setGroup($group) {
+        $this->group = $group;
     }
-
+    
     function setPrivileges($privileges) {
         $this->privileges = $privileges;
     }

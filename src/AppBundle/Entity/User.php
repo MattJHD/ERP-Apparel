@@ -12,10 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="Apparel_User")
  */
-class USER {
+class User {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="integer", name="iduser")
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -24,60 +24,60 @@ class USER {
      * @ORM\Column(type="string")
      * @Assert\NotNull()
      */
-    private $nom;
+    private $name;
     
     /**
      * @ORM\Column(type="string")
      * @Assert\NotNull()
      */
-    private $prenom;
+    private $firstname;
     
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotNull()
      */
     private $login;
     
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotNull()
      */
     private $password;
     
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotNull()
      */
     private $email;
     
     /**
      * @ORM\Column(type="integer")
-     * @Assert\NotNull()
      */
-    private $telephone;
+    private $phone;
     
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotNull()
      */
-    private $fonction;
+    private $function;
     
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\NotNull()
      */
     private $date_creation;
     
     /**
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull()
      */
     private $isactive;
     
     /**
-     * @ORM\ManyToMany(targetEntity="GROUPE", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
      */
-    private $groupes;
+    private $groups;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users")
+     */
+    private $shops;
+    
+    
     
     public function __construct() {
        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -88,12 +88,12 @@ class USER {
         return $this->id;
     }
 
-    function getNom() {
-        return $this->nom;
+    function getName() {
+        return $this->name;
     }
 
-    function getPrenom() {
-        return $this->prenom;
+    function getFirstname() {
+        return $this->firstname;
     }
 
     function getLogin() {
@@ -108,80 +108,83 @@ class USER {
         return $this->email;
     }
 
-    function getTelephone() {
-        return $this->telephone;
+    function getPhone() {
+        return $this->phone;
     }
 
-    function getMobile() {
-        return $this->mobile;
-    }
-
-    function getFonction() {
-        return $this->fonction;
+    function getFunction() {
+        return $this->function;
     }
 
     function getDate_creation() {
         return $this->date_creation;
     }
-    
+
     function getIsactive() {
         return $this->isactive;
     }
 
-        function getGroupes() {
-        return $this->groupes;
+    function getGroups() {
+        return $this->groups;
     }
 
+    function getShops() {
+        return $this->shops;
+    }
+
+    
     
     
     //SETTER
     function setId($id) {
         $this->id = $id;
     }
-    
-    function setNom(type $nom) {
-        $this->nom = $nom;
+
+    function setName($name) {
+        $this->name = $name;
     }
 
-    function setPrenom(type $prenom) {
-        $this->prenom = $prenom;
+    function setFirstname($firstname) {
+        $this->firstname = $firstname;
     }
 
-    function setLogin(type $login) {
+    function setLogin($login) {
         $this->login = $login;
     }
 
-    function setPassword(type $password) {
+    function setPassword($password) {
         $this->password = $password;
     }
 
-    function setEmail(type $email) {
+    function setEmail($email) {
         $this->email = $email;
     }
 
-    function setTelephone(type $telephone) {
-        $this->telephone = $telephone;
+    function setPhone($phone) {
+        $this->phone = $phone;
     }
 
-    function setMobile(type $mobile) {
-        $this->mobile = $mobile;
+    function setFunction($function) {
+        $this->function = $function;
     }
 
-    function setFonction(type $fonction) {
-        $this->fonction = $fonction;
-    }
-
-    function setDate_creation(type $date_creation) {
+    function setDate_creation($date_creation) {
         $this->date_creation = $date_creation;
     }
-    
+
     function setIsactive($isactive) {
         $this->isactive = $isactive;
     }
-    
-    function setGroupes($groupes) {
-        $this->groupes = $groupes;
+
+    function setGroups($groups) {
+        $this->groups = $groups;
     }
+
+    function setShops($shops) {
+        $this->shops = $shops;
+    }
+
+
 
 
 
