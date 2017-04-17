@@ -26,7 +26,17 @@ class Privilege {
      */
     private $role;
     
-    //GETTER
+    /**
+     * @ORM\OneToOne(targetEntity="Resource", mappedBy="privilege")
+     */
+    private $resource;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Operation", mappedBy="privilege")
+     */
+    private $operations;
+    
+    //GETTERS
     function getId() {
     return $this->id;
     }
@@ -35,7 +45,16 @@ class Privilege {
         return $this->role;
     }
     
-    //SETTER
+    function getResource() {
+        return $this->resource;
+    }
+
+    function getOperations() {
+        return $this->operations;
+    }
+
+        
+    //SETTERS
     function setId($id) {
         $this->id = $id;
     }
@@ -43,6 +62,15 @@ class Privilege {
     function setRole($role) {
         $this->role = $role;
     }
+    
+    function setResource($resource) {
+        $this->resource = $resource;
+    }
+
+    function setOperations($operations) {
+        $this->operations = $operations;
+    }
+
 
 
     

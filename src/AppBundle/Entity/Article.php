@@ -55,9 +55,14 @@ class Article {
      * @ORM\ManyToOne(targetEntity="Brand", inversedBy="articles")
      */
     private $brand;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Shop", inversedBy="articles")
+     */
+    private $shop;
 
 
-    //GETTER
+    //GETTERS
     function getId() {
         return $this->id;
     }
@@ -90,7 +95,12 @@ class Article {
         return $this->brand;
     }
 
-    //SETTER
+    function getShop() {
+        return $this->shop;
+    }
+
+    
+    //SETTERS
     function setId($id) {
         $this->id = $id;
     }
@@ -122,6 +132,11 @@ class Article {
     function setBrand($brand) {
         $this->brand = $brand;
     }
+
+    function setShop($shop) {
+        $this->shop = $shop;
+    }
+
 
 
 

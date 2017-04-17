@@ -68,14 +68,19 @@ class User {
     private $isactive;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Group", mappedBy="users")
      */
     private $groups;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Shop", mappedBy="users")
      */
     private $shops;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Role", mappedBy="user")
+     */
+    private $role;
     
     
     
@@ -132,8 +137,11 @@ class User {
         return $this->shops;
     }
 
-    
-    
+    function getRole() {
+        return $this->role;
+    }
+
+        
     
     //SETTER
     function setId($id) {
@@ -182,6 +190,10 @@ class User {
 
     function setShops($shops) {
         $this->shops = $shops;
+    }
+
+    function setRole($role) {
+        $this->role = $role;
     }
 
 

@@ -6,14 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Description of Shop
+ * Description of Group
  *
  * @author matthieudurand
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ShopRepository")
- * @ORM\Table(name="Apparel_Shop")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GroupRepository")
+ * @ORM\Table(name="Apparel_Group")
  */
-class Shop {
-     /**
+class Group {
+    /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -22,25 +22,20 @@ class Shop {
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotNull()
      */
     private $name;
     
     /**
-     * @ORM\Column(type="string")
-     */
-    private $localisation;
-    
-    /**
-     *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="shops")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="groups")
      */
     private $users;
     
     /**
-     *
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="shop")
+     * @ORM\OneToOne(targetEntity="Role", mappedBy="group")
      */
-    private $articles;
+    private $role;
+    
     
     //GETTERS
     function getId() {
@@ -51,16 +46,12 @@ class Shop {
         return $this->name;
     }
 
-    function getLocalisation() {
-        return $this->localisation;
-    }
-
     function getUsers() {
         return $this->users;
     }
 
-    function getArticles() {
-        return $this->articles;
+    function getRole() {
+        return $this->role;
     }
 
     
@@ -73,16 +64,12 @@ class Shop {
         $this->name = $name;
     }
 
-    function setLocalisation($localisation) {
-        $this->localisation = $localisation;
-    }
-
     function setUsers($users) {
         $this->users = $users;
     }
 
-    function setArticles($articles) {
-        $this->articles = $articles;
+    function setRole($role) {
+        $this->role = $role;
     }
 
 

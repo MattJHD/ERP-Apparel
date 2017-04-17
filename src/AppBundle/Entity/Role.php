@@ -21,46 +21,32 @@ class Role {
     private $id;
     
     /**
-     * @ORM\Column(type="integer")
-     * @Assert\NotNull()
-     */
-    private $idressource;
-    
-    /**
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
      */
     private $isactive;
     
     /**
-     * 
+     * @ORM\OneToOne(targetEntity="Group", inversedBy="role")
      */
     private $group;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="User", inversedBy="role")
+     */
+    private $user;
     
     /**
      * @ORM\OneToMany(targetEntity="Privilege", mappedBy="role")
      */
     private $privileges;
     
-    /**
-     * 
-     */
-    private $application;
-    
-    /**
-     * 
-     */
-    private $operations;
     
     //GETTER
     function getId() {
     return $this->id;
     }
 
-    function getIdressource() {
-        return $this->idressource;
-    }
-    
     function getIsactive() {
         return $this->isactive;
     }
@@ -68,7 +54,11 @@ class Role {
     function getGroup() {
         return $this->group;
     }
-
+    
+    function getUser() {
+        return $this->user;
+    }
+    
     function getPrivileges() {
         return $this->privileges;
     }
@@ -77,18 +67,10 @@ class Role {
         return $this->application;
     }
 
-    function getOperations() {
-        return $this->operations;
-    }
-
             
     //SETTER
     function setId($id) {
         $this->id = $id;
-    }
-
-    function setIdressource(type $idressource) {
-        $this->idressource = $idressource;
     }
     
     function setIsactive($isactive) {
@@ -99,6 +81,10 @@ class Role {
         $this->group = $group;
     }
     
+    function setUser($user) {
+        $this->user = $user;
+    }
+        
     function setPrivileges($privileges) {
         $this->privileges = $privileges;
     }
@@ -107,9 +93,6 @@ class Role {
         $this->application = $application;
     }
 
-    function setOperations($operations) {
-        $this->operations = $operations;
-    }
 
 
 
