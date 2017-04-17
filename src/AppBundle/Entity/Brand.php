@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Article
  *
  * @author wbloch
- * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BrandRepository")
  * @ORM\Table(name="Apparel_Brand")
  */
 class Brand {

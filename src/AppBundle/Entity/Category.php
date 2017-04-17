@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Category
  *
  * @author wbloch
- * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
  * @ORM\Table(name="Apparel_Category")
  */
 class Category {

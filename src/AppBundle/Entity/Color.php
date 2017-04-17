@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Color
  *
  * @author wbloch
- * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ColorRepository")
  * @ORM\Table(name="Apparel_Color")
  */
 class Color {

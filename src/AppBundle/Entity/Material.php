@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Description of Material
  *
  * @author wbloch
- * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MaterialRepository")
  * @ORM\Table(name="Apparel_Material")
  */
 class Material {
