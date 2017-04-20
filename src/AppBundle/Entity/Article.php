@@ -57,10 +57,25 @@ class Article {
     private $brand;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Shop", inversedBy="articles")
+     * @ORM\OneToOne(targetEntity="Shop", inversedBy="articles")
      */
     private $shop;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $solded = false;
+    
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $soldBy;
+    
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $soldAt;
+    
 
     //GETTERS
     function getId() {
@@ -99,7 +114,19 @@ class Article {
         return $this->shop;
     }
 
-    
+    function getSolded() {
+        return $this->solded;
+    }
+
+    function getSoldBy() {
+        return $this->soldBy;
+    }
+
+    function getSoldAt() {
+        return $this->soldAt;
+    }
+
+        
     //SETTERS
     function setId($id) {
         $this->id = $id;
@@ -136,6 +163,20 @@ class Article {
     function setShop($shop) {
         $this->shop = $shop;
     }
+    
+    function setSolded($solded) {
+        $this->solded = $solded;
+    }
+
+    function setSoldBy($soldBy) {
+        $this->soldBy = $soldBy;
+    }
+
+    function setSoldAt($soldAt) {
+        $this->soldAt = $soldAt;
+    }
+
+
 
 
 

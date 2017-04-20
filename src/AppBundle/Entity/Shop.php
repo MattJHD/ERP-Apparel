@@ -36,11 +36,6 @@ class Shop {
      */
     private $users;
     
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="shop")
-     */
-    private $articles;
     
     //GETTERS
     function getId() {
@@ -59,10 +54,6 @@ class Shop {
         return $this->users;
     }
 
-    function getArticles() {
-        return $this->articles;
-    }
-
     
     //SETTERS
     function setId($id) {
@@ -79,10 +70,6 @@ class Shop {
 
     function setUsers($users) {
         $this->users = $users;
-    }
-
-    function setArticles($articles) {
-        $this->articles = $articles;
     }
 
 
