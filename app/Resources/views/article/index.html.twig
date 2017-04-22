@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   
+    <h1>Article</h1>
+    {{dump(article)}}
+    <ul>
+        <li>{{article.name}}</li>
+        <li>{{article.price}}</li>
+        <li>{{article.size}}</li>
+        <li>{{article.category}}</li>
+        <li>{{article.materials}}</li>
+        <li>{{article.colors}}</li>
+        <li>{{article.brand}}</li>
+        <li>{{article.shop}}</li>
+        <li>{{article.solded}}</li>
+        <li>{{article.soldBy}}</li>
+        <li>{{article.soldAt}}</li>
+    </ul>
+    
+    {{json}}
+    
+{% endblock %}
+
+
+
