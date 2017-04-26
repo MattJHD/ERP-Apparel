@@ -181,4 +181,34 @@ class Article {
 
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->materials = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add materials
+     *
+     * @param \AppBundle\Entity\Material $materials
+     * @return Article
+     */
+    public function addMaterial(\AppBundle\Entity\Material $materials)
+    {
+        $this->materials[] = $materials;
+
+        return $this;
+    }
+
+    /**
+     * Remove materials
+     *
+     * @param \AppBundle\Entity\Material $materials
+     */
+    public function removeMaterial(\AppBundle\Entity\Material $materials)
+    {
+        $this->materials->removeElement($materials);
+    }
 }

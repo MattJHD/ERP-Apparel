@@ -202,4 +202,73 @@ class User {
 
 
 
+
+    /**
+     * Set date_creation
+     *
+     * @param \DateTime $dateCreation
+     * @return User
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->date_creation = $dateCreation;
+
+        return $this;
+    }
+
+    /**
+     * Get date_creation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->date_creation;
+    }
+
+    /**
+     * Add groups
+     *
+     * @param \AppBundle\Entity\Group $groups
+     * @return User
+     */
+    public function addGroup(\AppBundle\Entity\Group $groups)
+    {
+        $this->groups[] = $groups;
+
+        return $this;
+    }
+
+    /**
+     * Remove groups
+     *
+     * @param \AppBundle\Entity\Group $groups
+     */
+    public function removeGroup(\AppBundle\Entity\Group $groups)
+    {
+        $this->groups->removeElement($groups);
+    }
+
+    /**
+     * Add shops
+     *
+     * @param \AppBundle\Entity\Shop $shops
+     * @return User
+     */
+    public function addShop(\AppBundle\Entity\Shop $shops)
+    {
+        $this->shops[] = $shops;
+
+        return $this;
+    }
+
+    /**
+     * Remove shops
+     *
+     * @param \AppBundle\Entity\Shop $shops
+     */
+    public function removeShop(\AppBundle\Entity\Shop $shops)
+    {
+        $this->shops->removeElement($shops);
+    }
 }

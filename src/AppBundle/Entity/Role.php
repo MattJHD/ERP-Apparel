@@ -97,4 +97,34 @@ class Role {
 
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->privileges = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add privileges
+     *
+     * @param \AppBundle\Entity\Privilege $privileges
+     * @return Role
+     */
+    public function addPrivilege(\AppBundle\Entity\Privilege $privileges)
+    {
+        $this->privileges[] = $privileges;
+
+        return $this;
+    }
+
+    /**
+     * Remove privileges
+     *
+     * @param \AppBundle\Entity\Privilege $privileges
+     */
+    public function removePrivilege(\AppBundle\Entity\Privilege $privileges)
+    {
+        $this->privileges->removeElement($privileges);
+    }
 }

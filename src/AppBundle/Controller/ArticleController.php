@@ -25,11 +25,9 @@ class ArticleController extends Controller {
     }
     
     /**
-     * @Route()
-     * @Method("GET|POST")
+     * @Route("/test")
      */
     public function addAction(){
-        
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
@@ -56,6 +54,5 @@ class ArticleController extends Controller {
 //            'json' => $data,
 //            ]
 //        );
-        
     }
 }

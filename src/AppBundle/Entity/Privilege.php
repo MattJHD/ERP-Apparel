@@ -74,4 +74,34 @@ class Privilege {
 
 
     
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->operations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add operations
+     *
+     * @param \AppBundle\Entity\Operation $operations
+     * @return Privilege
+     */
+    public function addOperation(\AppBundle\Entity\Operation $operations)
+    {
+        $this->operations[] = $operations;
+
+        return $this;
+    }
+
+    /**
+     * Remove operations
+     *
+     * @param \AppBundle\Entity\Operation $operations
+     */
+    public function removeOperation(\AppBundle\Entity\Operation $operations)
+    {
+        $this->operations->removeElement($operations);
+    }
 }
