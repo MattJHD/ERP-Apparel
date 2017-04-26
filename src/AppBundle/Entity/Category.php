@@ -25,10 +25,6 @@ class Category {
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
-     */
-    private $articles;
 
     //GETTER
     function getId() {
@@ -39,9 +35,6 @@ class Category {
         return $this->name;
     }
 
-    function getArticles() {
-        return $this->articles;
-    }
 
     //SETTER
     function setId($id) {
@@ -52,9 +45,7 @@ class Category {
         $this->name = $name;
     }
 
-    function setArticles($articles) {
-        $this->articles = $articles;
-    }
+
     /**
      * Constructor
      */
@@ -63,26 +54,26 @@ class Category {
         $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add articles
-     *
-     * @param \AppBundle\Entity\Article $articles
-     * @return Category
-     */
-    public function addArticle(\AppBundle\Entity\Article $articles)
-    {
-        $this->articles[] = $articles;
-
-        return $this;
-    }
-
-    /**
-     * Remove articles
-     *
-     * @param \AppBundle\Entity\Article $articles
-     */
-    public function removeArticle(\AppBundle\Entity\Article $articles)
-    {
-        $this->articles->removeElement($articles);
-    }
+//    /**
+//     * Add articles
+//     *
+//     * @param \AppBundle\Entity\Article $articles
+//     * @return Category
+//     */
+//    public function addArticle(\AppBundle\Entity\Article $articles)
+//    {
+//        $this->articles[] = $articles;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove articles
+//     *
+//     * @param \AppBundle\Entity\Article $articles
+//     */
+//    public function removeArticle(\AppBundle\Entity\Article $articles)
+//    {
+//        $this->articles->removeElement($articles);
+//    }
 }

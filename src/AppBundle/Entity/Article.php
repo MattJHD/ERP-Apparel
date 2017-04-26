@@ -36,7 +36,7 @@ class Article {
     private $size;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\OneToOne(targetEntity="Category", inversedBy="articles")
      */
     private $category;
 
@@ -52,12 +52,12 @@ class Article {
     private $colors;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="articles")
+     * @ORM\OneToOne(targetEntity="Brand")
      */
     private $brand;
     
     /**
-     * @ORM\OneToOne(targetEntity="Shop", inversedBy="articles")
+     * @ORM\OneToOne(targetEntity="Shop")
      */
     private $shop;
 
