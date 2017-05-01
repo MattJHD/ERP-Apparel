@@ -36,7 +36,8 @@ class Article {
     private $size;
 
     /**
-     * @ORM\OneToOne(targetEntity="Category", inversedBy="articles")
+     * @ORM\OneToOne(targetEntity="Category", inversedBy="article")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
 
@@ -46,7 +47,6 @@ class Article {
     private $materials;
 
      /**
-     * @ORM\Column(type="string")
      * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles")
      */
     private $colors;
@@ -179,14 +179,13 @@ class Article {
 
 
 
-
-
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->materials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->colors = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -210,5 +209,29 @@ class Article {
     public function removeMaterial(\AppBundle\Entity\Material $materials)
     {
         $this->materials->removeElement($materials);
+    }
+
+
+    /**
+     * Add colors
+     *
+     * @param \AppBundle\Entity\Color $colors
+     * @return Article
+     */
+    public function addColor(\AppBundle\Entity\Color $colors)
+    {
+        $this->colors[] = $colors;
+
+        return $this;
+    }
+
+    /**
+     * Remove colors
+     *
+     * @param \AppBundle\Entity\Color $colors
+     */
+    public function removeColor(\AppBundle\Entity\Color $colors)
+    {
+        $this->colors->removeElement($colors);
     }
 }

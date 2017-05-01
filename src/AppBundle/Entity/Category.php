@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Article;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,6 +26,11 @@ class Category {
      */
     private $name;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Article", mappedBy="category")
+     */
+    private $article;
+
 
     //GETTER
     function getId() {
@@ -35,6 +41,10 @@ class Category {
         return $this->name;
     }
 
+    function getArticle() {
+        return $this->article;
+    }
+
 
     //SETTER
     function setId($id) {
@@ -43,6 +53,10 @@ class Category {
 
     function setName($name) {
         $this->name = $name;
+    }
+
+    function setArticle($article) {
+        $this->article = $article;
     }
 
 

@@ -19,10 +19,38 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  * @author matthieudurand
  */
 class ColorController extends Controller{
-     /**
-      * @Route("/colors")
-      */
+    /**
+     * @Route("/colors")
+     */
     public function getColorsAction(){
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $em = $this->getDoctrine()->getManager();
+        $color = $em->getRepository(Color::class)->findAll();
+
+        /*$color = new Color();
+        
+        $color->setName("Grey");*/
+        
+        $data = $serializer->serialize($color, 'json');
+        
+        return new Response($data);
+        
+//        return $this->render('color/index.html.twig', [
+//            'color' => $color,
+//            'json' => $data,
+//            ]
+//        );
+    }
+    
+    /**
+     * @Method("POST")
+     */
+    public function postColorAction(){
+        
+        $article = new Color();
         
     }
 }

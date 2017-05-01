@@ -16,7 +16,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  * Description of ArticleController
  *
  * @author matthieudurand
- * @Route("/articles")
  */
 class ArticleController extends Controller {
     
@@ -25,14 +24,17 @@ class ArticleController extends Controller {
     }
     
     /**
-     * @Route("/test")
+     * @Route("/articles")
      */
     public function getArticlesAction(){
         $encoders = array(new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
 
-        $article = new Article();
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository(Article::class)->findAll();
+
+        /*$article = new Article();
         
         $article->setName("Toto");
         $article->setPrice("100");
@@ -43,7 +45,7 @@ class ArticleController extends Controller {
         $article->setBrand("Sandro");
         $article->setShop("Sandro");
         $article->setSoldBy("Martin");
-        $article->setSoldAt("2017-04-22T00:00:00");
+        $article->setSoldAt("2017-04-22T00:00:00");*/
         
         $data = $serializer->serialize($article, 'json');
         

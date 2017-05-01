@@ -24,6 +24,34 @@ class UserController extends Controller{
      * @Route("/users")
      */
     public function getUsersAction(){
+        $encoders = array(new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->findAll();
+
+        /*$user = new User();
+        
+        $user->setName("titi");*/
+        
+        $data = $serializer->serialize($user, 'json');
+        
+        return new Response($data);
+        
+//        return $this->render('user/index.html.twig', [
+//            'user' => $user,
+//            'json' => $data,
+//            ]
+//        );
+    }
+    
+    /**
+     * @Method("POST")
+     */
+    public function postUserAction(){
+        
+        $user = new User();
         
     }
 }
