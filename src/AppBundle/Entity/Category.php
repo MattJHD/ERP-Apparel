@@ -41,9 +41,9 @@ class Category {
         return $this->name;
     }
 
-    function getArticle() {
+   /* function getArticle() {
         return $this->article;
-    }
+    }*/
 
 
     //SETTER
