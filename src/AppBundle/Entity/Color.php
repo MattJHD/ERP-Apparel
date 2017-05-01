@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author wbloch
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ColorRepository")
- * @ORM\Table(name="Apparel_Color")
+ * @ORM\Table(name="apparel_color")
  */
 class Color {
     /**
