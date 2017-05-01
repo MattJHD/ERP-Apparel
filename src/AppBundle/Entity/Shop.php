@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author matthieudurand
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ShopRepository")
- * @ORM\Table(name="Apparel_Shop")
+ * @ORM\Table(name="apparel_shop")
  */
 class Shop {
      /**
@@ -32,7 +31,7 @@ class Shop {
     
     /**
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="shops")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="shops")
      */
     private $users;
     

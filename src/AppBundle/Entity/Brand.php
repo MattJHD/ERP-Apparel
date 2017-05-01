@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author wbloch
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BrandRepository")
- * @ORM\Table(name="Apparel_Brand")
+ * @ORM\Table(name="apparel_brand")
  */
 class Brand {
     /**

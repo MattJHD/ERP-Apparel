@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author mdurand
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
- * @ORM\Table(name="Apparel_Role")
+ * @ORM\Table(name="apparel_role")
  */
 class Role {
     /**
@@ -25,16 +24,6 @@ class Role {
      * @Assert\NotNull()
      */
     private $isactive;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Group", inversedBy="role")
-     */
-    private $group;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="role")
-     */
-    private $user;
     
     /**
      * @ORM\OneToMany(targetEntity="Privilege", mappedBy="role")

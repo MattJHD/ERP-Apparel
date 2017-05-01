@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author wbloch
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ColorRepository")
- * @ORM\Table(name="Apparel_Color")
+ * @ORM\Table(name="apparel_color")
  */
 class Color {
     /**
@@ -26,7 +25,7 @@ class Color {
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Article", mappedBy="colors")
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="colors")
      */
     private $articles;
 

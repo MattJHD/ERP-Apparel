@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author mdurand
  * @ORM\Entity(repositoryClass="ACLBundle\Repository\PrivilegeRepository")
- * @ORM\Table(name="Apparel_Privilege")
+ * @ORM\Table(name="apparel_privilege")
  */
 class Privilege {
     
@@ -27,11 +26,6 @@ class Privilege {
     private $role;
     
     /**
-     * @ORM\OneToOne(targetEntity="Resource", mappedBy="privilege")
-     */
-    private $resource;
-    
-    /**
      * @ORM\OneToMany(targetEntity="Operation", mappedBy="privilege")
      */
     private $operations;
@@ -43,10 +37,6 @@ class Privilege {
 
     function getRole() {
         return $this->role;
-    }
-    
-    function getResource() {
-        return $this->resource;
     }
 
     function getOperations() {
@@ -61,10 +51,6 @@ class Privilege {
 
     function setRole($role) {
         $this->role = $role;
-    }
-    
-    function setResource($resource) {
-        $this->resource = $resource;
     }
 
     function setOperations($operations) {

@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author wbloch
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
- * @ORM\Table(name="Apparel_Category")
+ * @ORM\Table(name="apparel_category")
  */
 class Category {
     /**
@@ -26,11 +25,6 @@ class Category {
      */
     private $name;
 
-    /**
-     * @ORM\OneToOne(targetEntity="Article", mappedBy="category")
-     */
-    private $article;
-
 
     //GETTER
     function getId() {
@@ -41,10 +35,6 @@ class Category {
         return $this->name;
     }
 
-    function getArticle() {
-        return $this->article;
-    }
-
 
     //SETTER
     function setId($id) {
@@ -53,10 +43,6 @@ class Category {
 
     function setName($name) {
         $this->name = $name;
-    }
-
-    function setArticle($article) {
-        $this->article = $article;
     }
 
 

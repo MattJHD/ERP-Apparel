@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author matthieudurand
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GroupRepository")
- * @ORM\Table(name="Apparel_Group")
+ * @ORM\Table(name="apparel_group")
  */
 class Group {
     /**
@@ -27,12 +26,12 @@ class Group {
     private $name;
     
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="groups")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
      */
     private $users;
     
     /**
-     * @ORM\OneToOne(targetEntity="Role", mappedBy="group")
+     * @ORM\OneToOne(targetEntity="Role")
      */
     private $role;
     

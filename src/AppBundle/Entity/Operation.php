@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author mdurand
  * @ORM\Entity(repositoryClass="ACLBundle\Repository\OperationRepository")
- * @ORM\Table(name="Apparel_Operation")
+ * @ORM\Table(name="apparel_operation")
  */
 class Operation {
    
@@ -22,6 +21,13 @@ class Operation {
     private $id;
     
     /**
+     * @ORM\Column()
+     * @ORM\Column(type="string")
+     * @Assert\NotNull()
+     */
+    private $libelle;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Privilege", inversedBy="operations")
      */
     private $privilege;
@@ -29,6 +35,10 @@ class Operation {
     //GETTERS
     function getId() {
         return $this->id;
+    }
+    
+    function getLibelle() {
+        return $this->libelle;
     }
 
     function getPrivilege() {
@@ -39,7 +49,11 @@ class Operation {
     function setId($id) {
         $this->id = $id;
     }
-
+    
+    function setLibelle($libelle) {
+        $this->libelle = $libelle;
+    }
+    
     function setPrivilege($privilege) {
         $this->privilege = $privilege;
     }

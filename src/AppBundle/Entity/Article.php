@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author wbloch
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticleRepository")
- * @ORM\Table(name="Apparel_Article")
+ * @ORM\Table(name="apparel_article")
  */
 class Article {
     /**
@@ -36,18 +35,17 @@ class Article {
     private $size;
 
     /**
-     * @ORM\OneToOne(targetEntity="Category", inversedBy="article")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Category")
      */
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles")
+     * @ORM\OneToMany(targetEntity="Material", mappedBy="articles")
      */
     private $materials;
 
      /**
-     * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles")
+     * @ORM\OneToMany(targetEntity="Color", mappedBy="articles")
      */
     private $colors;
 
@@ -94,9 +92,9 @@ class Article {
         return $this->size;
     }
 
-    function getCategory() {
-        return $this->category;
-    }
+//    function getCategory() {
+//        return $this->category;
+//    }
 
     function getMaterials() {
         return $this->materials;
