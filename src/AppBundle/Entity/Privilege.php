@@ -26,9 +26,15 @@ class Privilege {
     private $role;
     
     /**
-     * @ORM\OneToMany(targetEntity="Operation", mappedBy="privilege")
+     * @ORM\ManyTomany(targetEntity="Operation", inversedBy="privileges")
      */
     private $operations;
+    
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="Resource", inversedBy="privilege")
+     */
+    private $resource;
     
     //GETTERS
     function getId() {
@@ -42,7 +48,13 @@ class Privilege {
     function getOperations() {
         return $this->operations;
     }
+    
+    function getResource() {
+        return $this->resource;
+    }
 
+    
+    
         
     //SETTERS
     function setId($id) {
@@ -52,13 +64,17 @@ class Privilege {
     function setRole($role) {
         $this->role = $role;
     }
-
+   
     function setOperations($operations) {
         $this->operations = $operations;
     }
 
+        function setResource($resource) {
+        $this->resource = $resource;
+    }
 
-
+    
+    
     
     /**
      * Constructor

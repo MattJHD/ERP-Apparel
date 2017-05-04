@@ -27,7 +27,7 @@ class Resource {
     private $libelle;
     
     /**
-     * @ORM\OneToOne(targetEntity="Privilege")
+     * @ORM\OneToOne(targetEntity="Privilege", mappedBy="resource")
      */
     private $privilege;
     
@@ -46,6 +46,8 @@ class Resource {
     }
 
     
+    
+    
     //SETTERS
     function setId($id) {
         $this->id = $id;
@@ -58,6 +60,10 @@ class Resource {
     function setPrivilege($privilege) {
         $this->privilege = $privilege;
     }
+
+
+
+
 
 
     

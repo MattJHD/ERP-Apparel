@@ -27,10 +27,7 @@ class Operation {
      */
     private $libelle;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Privilege", inversedBy="operations")
-     */
-    private $privilege;
+    
     
     //GETTERS
     function getId() {
@@ -41,10 +38,11 @@ class Operation {
         return $this->libelle;
     }
 
-    function getPrivilege() {
-        return $this->privilege;
-    }
+    
 
+    
+    
+    
     //SETTERS
     function setId($id) {
         $this->id = $id;
@@ -54,9 +52,9 @@ class Operation {
         $this->libelle = $libelle;
     }
     
-    function setPrivilege($privilege) {
-        $this->privilege = $privilege;
-    }
+    
+
+
 
 
 }
