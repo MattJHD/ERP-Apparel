@@ -73,3 +73,10 @@ nelmio_cors:
         max_age:       3600
     paths:
         '^/': ~
+
+# jms_serializer Configuration
+jms_serializer:
+    handlers:
+        datetime:
+            default_format: "Y-m-d\\TH:i:sP"
+            default_timezone: "UTC"
