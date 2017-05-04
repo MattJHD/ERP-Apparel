@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\User;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
 
 /**
  * Description of UserController
@@ -24,9 +22,8 @@ class UserController extends Controller{
      * @Route("/users")
      */
     public function getUsersAction(){
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        
+        $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository(User::class)->findAll();
