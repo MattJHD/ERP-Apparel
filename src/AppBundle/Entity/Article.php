@@ -40,12 +40,12 @@ class Article {
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="Material", mappedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles")
      */
     private $materials;
 
      /**
-     * @ORM\OneToMany(targetEntity="Color", mappedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles")
      */
     private $colors;
 

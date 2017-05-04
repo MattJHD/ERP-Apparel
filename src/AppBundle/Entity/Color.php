@@ -25,7 +25,7 @@ class Color {
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Article", inversedBy="colors")
+     * @ORM\ManyToMany(targetEntity="Article", mappedBy="colors")
      */
     private $articles;
 

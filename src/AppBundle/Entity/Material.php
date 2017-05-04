@@ -25,7 +25,7 @@ class Material {
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Article", inversedBy="materials")
+     * @ORM\ManyToMany(targetEntity="Article", mappedBy="materials")
      */
     private $articles;
 
