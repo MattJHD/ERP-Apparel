@@ -34,6 +34,7 @@ class Brand {
         return $this->name;
     }
 
+    
 
 
     //SETTER
@@ -44,6 +45,7 @@ class Brand {
     function setName($name) {
         $this->name = $name;
     }
+
 
 
 

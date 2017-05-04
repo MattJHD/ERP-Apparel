@@ -24,6 +24,7 @@ class Category {
      * @ORM\Column(type="string")
      */
     private $name;
+ 
 
 
     //GETTER
@@ -35,6 +36,7 @@ class Category {
         return $this->name;
     }
 
+    
 
     //SETTER
     function setId($id) {

@@ -34,6 +34,7 @@ class Shop {
      * @ORM\ManyToMany(targetEntity="User", mappedBy="shops")
      */
     private $users;
+
     
     
     //GETTERS
@@ -53,6 +54,8 @@ class Shop {
         return $this->users;
     }
 
+
+    
     
     //SETTERS
     function setId($id) {
@@ -71,6 +74,7 @@ class Shop {
         $this->users = $users;
     }
 
+    
 
     /**
      * Constructor

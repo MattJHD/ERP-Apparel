@@ -35,9 +35,9 @@ class Article {
     private $size;
 
     /**
-     * @ORM\OneToOne(targetEntity="Category")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="articles")
      */
-    private $category;
+    private $categories;
 
     /**
      * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles")
@@ -50,14 +50,14 @@ class Article {
     private $colors;
 
     /**
-     * @ORM\OneToOne(targetEntity="Brand")
+     * @ORM\ManyToMany(targetEntity="Brand", inversedBy="articles")
      */
-    private $brand;
+    private $brands;
     
     /**
-     * @ORM\OneToOne(targetEntity="Shop")
+     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="articles")
      */
-    private $shop;
+    private $shops;
 
     /**
      * @ORM\Column(type="boolean")
@@ -92,9 +92,9 @@ class Article {
         return $this->size;
     }
 
-//    function getCategory() {
-//        return $this->category;
-//    }
+    function getCategories() {
+        return $this->categories;
+    }
 
     function getMaterials() {
         return $this->materials;
@@ -103,13 +103,13 @@ class Article {
     function getColors() {
         return $this->colors;
     }
-
-    function getBrand() {
-        return $this->brand;
+    
+    function getBrands() {
+        return $this->brands;
     }
 
-    function getShop() {
-        return $this->shop;
+    function getShops() {
+        return $this->shops;
     }
 
     function getSolded() {
@@ -142,10 +142,10 @@ class Article {
         $this->size = $size;
     }
 
-    function setCategory($category) {
-        $this->category = $category;
+    function setCategories($categories) {
+        $this->categories = $categories;
     }
-
+    
     function setMaterials($materials) {
         $this->materials = $materials;
     }
@@ -153,15 +153,15 @@ class Article {
     function setColors($colors) {
         $this->colors = $colors;
     }
-
-    function setBrand($brand) {
-        $this->brand = $brand;
-    }
-
-    function setShop($shop) {
-        $this->shop = $shop;
-    }
     
+    function setBrands($brands) {
+        $this->brands = $brands;
+    }
+
+    function setShops($shops) {
+        $this->shops = $shops;
+    }
+        
     function setSolded($solded) {
         $this->solded = $solded;
     }
