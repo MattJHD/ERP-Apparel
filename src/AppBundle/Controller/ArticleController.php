@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Article;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
 
 /**
  * Description of ArticleController
@@ -27,9 +25,8 @@ class ArticleController extends Controller {
      * @Route("/articles")
      */
     public function getArticlesAction(){
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        //jms
+        $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository(Article::class)->findAll();
