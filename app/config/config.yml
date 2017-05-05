@@ -73,6 +73,12 @@ nelmio_cors:
         max_age:       3600
     paths:
         '^/': ~
+        
+# nelmio api doc
+nelmio_api_doc: ~
+framework:
+    templating:
+        engines: ['twig']
 
 # jms_serializer Configuration
 jms_serializer:
