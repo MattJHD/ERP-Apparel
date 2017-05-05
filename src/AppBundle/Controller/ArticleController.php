@@ -10,6 +10,7 @@ use AppBundle\Entity\Article;
 
 use JMS\Serializer\SerializerBuilder;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 /**
  * Description of ArticleController
  *
@@ -23,6 +24,13 @@ class ArticleController extends Controller {
     
     /**
      * @Route("/articles")
+     * @ApiDoc(
+     *  description="Récupère la liste des articles de l'application",
+     *  filters={
+     *      {"name"="articles", "dataType"="string"}
+     *  },
+     *    output= { "class"=Article::class, "collection"=true, "groups"={"Article"} }
+     * )
      */
     public function getArticlesAction(){
         //jms

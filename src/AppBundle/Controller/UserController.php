@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
 
 use JMS\Serializer\SerializerBuilder;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of UserController
@@ -20,6 +21,14 @@ class UserController extends Controller{
     
     /**
      * @Route("/users")
+     * @ApiDoc(
+     *  description="Récupère la liste des utilisateurs de l'application",
+     *  filters={
+     *      {"name"="users", "dataType"="string"}
+     *  },
+     *    output= { "class"=User::class, "collection"=true, "groups"={"User"} }
+     * )
+     * 
      */
     public function getUsersAction(){
         
