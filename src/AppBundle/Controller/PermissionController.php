@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
-use AppBundle\Entity\Material;
+use AppBundle\Entity\Permission;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -18,35 +18,35 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  *
  * @author matthieudurand
  */
-class MaterialController extends Controller{
+class PermissionController extends Controller{
     /**
-     * @Route("/materials")
+     * @Route("/permissions")
      * @ApiDoc(
-     *  description="Récupère la liste des materiaux de l'application",
+     *  description="Récupère la liste des permissions de l'application",
      *  filters={
-     *      {"name"="materials", "dataType"="string"}
+     *      {"name"="permissions", "dataType"="string"}
      *  },
-     *    output= { "class"=Material::class, "collection"=true, "groups"={"Materials"} }
+     *    output= { "class"=Permission::class, "collection"=true, "groups"={"Permissions"} }
      * )
      */
-    public function getColorsAction(){
+    public function getPermissionsAction(){
         //jms
         $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
-        $material = $em->getRepository(Material::class)->findAll();
+        $permission = $em->getRepository(Permission::class)->findAll();
 
-        /*$material = new Material();
+        /*$permission = new Permission();
         
-        $material->setName("Cotton");*/
+        $permission->setLibelle("permiTest");*/
        
         
-        $data = $serializer->serialize($material, 'json');
+        $data = $serializer->serialize($permission, 'json');
         
         return new Response($data);
         
-//        return $this->render('material/index.html.twig', [
-//            'material' => $material,
+//        return $this->render('permission/index.html.twig', [
+//            'permission' => $permission,
 //            'json' => $data,
 //            ]
 //        );
@@ -55,9 +55,9 @@ class MaterialController extends Controller{
     /**
      * @Method("POST")
      */
-    public function postMaterialAction(){
+    public function postPermissionAction(){
         
-        $article = new Material();
+        $permission = new Permission();
         
     }
 }

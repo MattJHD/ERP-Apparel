@@ -9,23 +9,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Shop;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 /**
  * Description of ShopController
  *
  * @author matthieudurand
  */
 class ShopController extends Controller{
-    
     /**
      * @Route("/shops")
+     * @ApiDoc(
+     *  description="Récupère la liste des magasins de l'application",
+     *  filters={
+     *      {"name"="shops", "dataType"="string"}
+     *  },
+     *    output= { "class"=Shop::class, "collection"=true, "groups"={"Shops"} }
+     * )
      */
     public function getShopsAction(){
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        //jms
+        $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
         $shop = $em->getRepository(Shop::class)->findAll();
@@ -33,7 +38,7 @@ class ShopController extends Controller{
         /*$shop = new Shop();
         
         $shop->setName("shop1");*/
-        
+             
         $data = $serializer->serialize($shop, 'json');
         
         return new Response($data);

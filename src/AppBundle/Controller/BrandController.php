@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Brand;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of BrandController
@@ -19,20 +19,28 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class BrandController extends Controller{
     
-     /**
+
+    /**
      * @Route("/brands")
+     * @ApiDoc(
+     *  description="Récupère la liste des marques de l'application",
+     *  filters={
+     *      {"name"="brands", "dataType"="string"}
+     *  },
+     *    output= { "class"=Brand::class, "collection"=true, "groups"={"Brand"} }
+     * )
      */
     public function getBrandsAction(){
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        //jms
+        $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
         $brand = $em->getRepository(Brand::class)->findAll();
 
-        /*$brand = new Brand();
+      /*  $brand = new Brand();
         
         $brand->setName("Zara");*/
+       
         
         $data = $serializer->serialize($brand, 'json');
         
@@ -44,6 +52,7 @@ class BrandController extends Controller{
 //            ]
 //        );
     }
+
     
     /**
      * @Method("POST")

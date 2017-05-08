@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Color;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of ColorController
@@ -19,13 +19,20 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  * @author matthieudurand
  */
 class ColorController extends Controller{
-    /**
+    
+     /**
      * @Route("/colors")
+     * @ApiDoc(
+     *  description="Récupère la liste des couleurs de l'application",
+     *  filters={
+     *      {"name"="colors", "dataType"="string"}
+     *  },
+     *    output= { "class"=Color::class, "collection"=true, "groups"={"Colors"} }
+     * )
      */
     public function getColorsAction(){
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        //jms
+        $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
         $color = $em->getRepository(Color::class)->findAll();
@@ -33,6 +40,7 @@ class ColorController extends Controller{
         /*$color = new Color();
         
         $color->setName("Grey");*/
+       
         
         $data = $serializer->serialize($color, 'json');
         

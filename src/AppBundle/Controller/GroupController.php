@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Group;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 
 /**
@@ -20,10 +20,45 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  */
 class GroupController extends Controller{
     
-    /**
+     /**
      * @Route("/groups")
+     * @ApiDoc(
+     *  description="Récupère la liste des groupes de l'application",
+     *  filters={
+     *      {"name"="groups", "dataType"="string"}
+     *  },
+     *    output= { "class"=Group::class, "collection"=true, "groups"={"Groups"} }
+     * )
      */
     public function getGroupsAction(){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+
+        $em = $this->getDoctrine()->getManager();
+        $group = $em->getRepository(Group::class)->findAll();
+
+        /*$group = new Group();
+        
+        $group->setName("group1");*/
+             
+        $data = $serializer->serialize($group, 'json');
+        
+        return new Response($data);
+        
+//        return $this->render('group/index.html.twig', [
+//            'group' => $group,
+//            'json' => $data,
+//            ]
+//        );
+    }
+    
+    /**
+     * @Method("POST")
+     */
+    public function postGroupAction(){
+        
+        $group = new Group();
         
     }
+
 }

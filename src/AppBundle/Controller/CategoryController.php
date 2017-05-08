@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Category;
 
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use JMS\Serializer\SerializerBuilder;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of CategoryController
@@ -22,11 +22,17 @@ class CategoryController extends Controller{
     
      /**
      * @Route("/categories")
+     * @ApiDoc(
+     *  description="Récupère la liste des categories de l'application",
+     *  filters={
+     *      {"name"="categories", "dataType"="string"}
+     *  },
+     *    output= { "class"=Category::class, "collection"=true, "groups"={"Categories"} }
+     * )
      */
     public function getCategoriesAction(){
-        $encoders = array(new JsonEncoder());
-        $normalizers = array(new ObjectNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        //jms
+        $serializer = SerializerBuilder::create()->build();
 
         $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository(Category::class)->findAll();
@@ -34,6 +40,7 @@ class CategoryController extends Controller{
         /*$category = new Category();
         
         $category->setName("Shoes");*/
+       
         
         $data = $serializer->serialize($category, 'json');
         

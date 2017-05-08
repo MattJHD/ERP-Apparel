@@ -24,6 +24,11 @@ class Permission {
      * @ORM\Column()
      */
     private $libelle;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Role", mappedBy="permissions")
+     */
+    private $roles;
     
     //GETTERS
     function getId() {
@@ -33,9 +38,11 @@ class Permission {
     function getLibelle() {
         return $this->libelle;
     }
+
+     function getRoles() {
+        return $this->roles;
+    }
     
-
-
     //SETTERS
     function setId($id) {
         $this->id = $id;
@@ -45,5 +52,16 @@ class Permission {
         $this->libelle = $libelle;
     }
 
+     function setRoles($roles) {
+        $this->roles = $roles;
+    }
 
+
+     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 }
