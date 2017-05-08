@@ -26,9 +26,15 @@ class Role {
     private $isactive;
     
     /**
-     * @ORM\OneToMany(targetEntity="Privilege", mappedBy="role")
+     * @ORM\Column()
      */
-    private $privileges;
+    private $libelle;
+    
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Permission", inversedBy="roles")
+     */
+    private $permissions;
     
     
     //GETTER
@@ -48,14 +54,16 @@ class Role {
         return $this->user;
     }
     
-    function getPrivileges() {
-        return $this->privileges;
+    function getLibelle() {
+        return $this->libelle;
+    }
+        
+    function getPermissions() {
+        return $this->permissions;
     }
     
-    function getApplication() {
-        return $this->application;
-    }
-
+    
+    
             
     //SETTER
     function setId($id) {
@@ -73,17 +81,17 @@ class Role {
     function setUser($user) {
         $this->user = $user;
     }
-        
-    function setPrivileges($privileges) {
-        $this->privileges = $privileges;
+
+    function setLibelle($libelle) {
+        $this->libelle = $libelle;
     }
 
-    function setApplication($application) {
-        $this->application = $application;
+    function setPermissions($permissions) {
+        $this->permissions = $permissions;
     }
 
 
-
+    
 
 
     /**
@@ -91,29 +99,8 @@ class Role {
      */
     public function __construct()
     {
-        $this->privileges = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->permissions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Add privileges
-     *
-     * @param \AppBundle\Entity\Privilege $privileges
-     * @return Role
-     */
-    public function addPrivilege(\AppBundle\Entity\Privilege $privileges)
-    {
-        $this->privileges[] = $privileges;
 
-        return $this;
-    }
-
-    /**
-     * Remove privileges
-     *
-     * @param \AppBundle\Entity\Privilege $privileges
-     */
-    public function removePrivilege(\AppBundle\Entity\Privilege $privileges)
-    {
-        $this->privileges->removeElement($privileges);
-    }
 }

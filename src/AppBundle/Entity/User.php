@@ -77,7 +77,7 @@ class User {
     private $shops;
     
     /**
-     * @ORM\OneToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
      */
     private $role;
     

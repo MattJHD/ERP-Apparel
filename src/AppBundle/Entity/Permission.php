@@ -5,29 +5,25 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Description of Operation
+ * Description of Permission
  *
- * @author mdurand
- * @ORM\Entity(repositoryClass="ACLBundle\Repository\OperationRepository")
- * @ORM\Table(name="apparel_operation")
+ * @author matthieudurand
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PermissionRepository")
+ * @ORM\Table(name="apparel_permission")
  */
-class Operation {
-   
+class Permission {
+    
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO") 
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
     
     /**
      * @ORM\Column()
-     * @ORM\Column(type="string")
-     * @Assert\NotNull()
      */
     private $libelle;
-    
-    
     
     //GETTERS
     function getId() {
@@ -37,24 +33,17 @@ class Operation {
     function getLibelle() {
         return $this->libelle;
     }
-
     
 
-    
-    
-    
+
     //SETTERS
     function setId($id) {
         $this->id = $id;
     }
-    
+
     function setLibelle($libelle) {
         $this->libelle = $libelle;
     }
-    
-    
-
-
 
 
 }

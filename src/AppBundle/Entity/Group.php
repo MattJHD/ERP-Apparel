@@ -30,11 +30,6 @@ class Group {
      */
     private $users;
     
-    /**
-     * @ORM\OneToOne(targetEntity="Role")
-     */
-    private $role;
-    
     
     //GETTERS
     function getId() {
@@ -49,10 +44,6 @@ class Group {
         return $this->users;
     }
 
-    function getRole() {
-        return $this->role;
-    }
-
     
     //SETTERS
     function setId($id) {
@@ -65,10 +56,6 @@ class Group {
 
     function setUsers($users) {
         $this->users = $users;
-    }
-
-    function setRole($role) {
-        $this->role = $role;
     }
 
 
