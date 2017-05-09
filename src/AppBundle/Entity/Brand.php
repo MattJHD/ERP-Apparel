@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,11 +17,13 @@ class Brand {
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Type("int")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $name;
 

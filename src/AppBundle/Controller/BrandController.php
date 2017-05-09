@@ -5,8 +5,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Brand;
+use AppBundle\Form\BrandType;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -69,11 +71,39 @@ class BrandController extends Controller{
 
     
     /**
+     * @Route("/brand")  
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'une marque",
+     *  filters={
+     *      {"name"="brand", "dataType"="string"}
+     *  },
+     *    output= { "class"=Brand::class, "collection"=false}
+     * )
      */
-    public function postBrandAction(){
+    public function postBrandAction(Request $request){
+        
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = '{"id":"","name":"brandTestPost"}';
+        
+        $object = $serializer->deserialize($jsonData, Brand::class, 'json');
         
         $brand = new Brand();
+        
+        $form = $this->createForm(BrandType::class, $brand);
+        
+        $form->submit($request->request->all());
+        
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($object);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $form;
+        }
         
     }
 }
