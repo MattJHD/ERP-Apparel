@@ -5,8 +5,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Article;
+use AppBundle\Form\ArticleType;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -63,6 +65,13 @@ class ArticleController extends Controller {
     /**
      * @Route("/article/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère la liste d'un article par son id",
+     *  filters={
+     *      {"name"="article", "dataType"="string"}
+     *  },
+     *    output= { "class"=Article::class, "collection"=false}
+     * )
      */
     public function getArticleAction($id){
         //jms
@@ -75,11 +84,32 @@ class ArticleController extends Controller {
     }
     
     /**
+     * @Route("/article")  
      * @Method("POST")
      */
-    public function postArticleAction(){
+    public function postArticleAction(Request $request){
+        
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = '{"id":"","name":"articleTestPost","price":75,"size":"L","categories":[1],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2014-11-30"}';
+        
+        $object = $serializer->deserialize($jsonData, Article::class, 'json');
         
         $article = new Article();
+        
+        $form = $this->createForm(ArticleType::class, $article);
+        
+        $form->submit($request->request->all());
+        
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($object);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $form;
+        }
         
     }
 }

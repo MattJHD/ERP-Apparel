@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,61 +17,75 @@ class Article {
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Type("int")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Type("int")
      */
     private $price;
 
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $size;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="articles", cascade={"persist", "remove"})
+     * @Type("ArrayCollection<AppBundle\Entity\Category>")
      */
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles", cascade={"persist", "remove"})
+     * @Type("ArrayCollection<AppBundle\Entity\Material>")
      */
     private $materials;
 
      /**
-     * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles", cascade={"persist", "remove"})
+      * @Type("ArrayCollection<AppBundle\Entity\Color>")
      */
     private $colors;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Brand", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Brand", inversedBy="articles", cascade={"persist", "remove"})
+     * @Type("ArrayCollection<AppBundle\Entity\Brand>")
      */
     private $brands;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="articles", cascade={"persist", "remove"})
+     * @Type("ArrayCollection<AppBundle\Entity\Shop>")
      */
     private $shops;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Type("boolean")
      */
     private $solded = false;
     
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $soldBy;
     
     /**
      * @ORM\Column(type="datetime")
+     * @Type("DateTime<'Y-m-d'>")
      */
     private $soldAt;
     
