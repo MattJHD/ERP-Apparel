@@ -5,8 +5,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Group;
+use AppBundle\Form\GroupType;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -67,11 +69,39 @@ class GroupController extends Controller{
     }
     
     /**
+     * @Route("/group")  
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'un groupe",
+     *  filters={
+     *      {"name"="group", "dataType"="string"}
+     *  },
+     *    output= { "class"=Group::class, "collection"=false}
+     * )
      */
-    public function postGroupAction(){
+    public function postGroupAction(Request $request){
+        
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = '{"id":"","name":"groupTestPost"}';
+        
+        $object = $serializer->deserialize($jsonData, Group::class, 'json');
         
         $group = new Group();
+        
+        $form = $this->createForm(GroupType::class, $group);
+        
+        $form->submit($request->request->all());
+        
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($object);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $form;
+        }
         
     }
 

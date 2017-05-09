@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,68 +17,82 @@ class User {
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Type("int")
      */
     private $id;
     
     /**
      * @ORM\Column(type="string")
      * @Assert\NotNull()
+     * @Type("string")
      */
     private $name;
     
     /**
      * @ORM\Column(type="string")
      * @Assert\NotNull()
+     * @Type("string")
      */
     private $firstname;
     
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $login;
     
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $password;
     
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $email;
     
     /**
      * @ORM\Column(type="integer")
+     * @Type("int")
      */
     private $phone;
     
     /**
      * @ORM\Column(type="string")
+     * @Type("string")
      */
     private $function;
     
     /**
      * @ORM\Column(type="datetime")
+     * @Type("int")
      */
     private $date_creation;
     
     /**
      * @ORM\Column(type="boolean")
+     * @Type("boolean")
      */
     private $isactive;
     
     /**
      * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     * @Type("int")
      */
     private $groups;
     
     /**
      * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users")
+     * @Type("int")
      */
     private $shops;
     
     /**
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
+     * @Type("int")
      */
     private $role;
     
