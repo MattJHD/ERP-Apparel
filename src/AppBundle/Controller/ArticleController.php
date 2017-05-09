@@ -91,7 +91,7 @@ class ArticleController extends Controller {
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"articleTestPost","price":75,"size":"L","categories":[1],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2014-11-30"}';
+        $jsonData = '{"id":"","name":"articleTestPost","price":99,"size":"XL","categories":[{"id":"2", "name":"categorieTestPost"}],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2014-11-30"}';
         
         $object = $serializer->deserialize($jsonData, Article::class, 'json');
         
