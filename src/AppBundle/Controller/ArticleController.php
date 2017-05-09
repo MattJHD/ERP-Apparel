@@ -137,6 +137,7 @@ class ArticleController extends Controller {
      * )
      */
     public function patchArticleAction($id, Request $request){
+        
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
