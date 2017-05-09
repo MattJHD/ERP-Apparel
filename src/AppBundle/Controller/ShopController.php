@@ -49,6 +49,20 @@ class ShopController extends Controller{
 //            ]
 //        );
     }
+
+     /**
+     * @Route("/shop/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getRoleAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $shop = $em->getRepository(Shop::class)->find($id);
+        $data = $serializer->serialize($shop, 'json');
+        
+        return new Response($data);
+    }
     
     /**
      * @Method("POST")

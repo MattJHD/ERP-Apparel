@@ -53,6 +53,20 @@ class ColorController extends Controller{
 //        );
     }
     
+     /**
+     * @Route("/color/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getColorAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $color = $em->getRepository(Color::class)->find($id);
+        $data = $serializer->serialize($color, 'json');
+        
+        return new Response($data);
+    }
+
     /**
      * @Method("POST")
      */

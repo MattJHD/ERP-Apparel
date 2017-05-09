@@ -29,7 +29,7 @@ class MaterialController extends Controller{
      *    output= { "class"=Material::class, "collection"=true, "groups"={"Materials"} }
      * )
      */
-    public function getColorsAction(){
+    public function getMaterialsAction(){
         //jms
         $serializer = SerializerBuilder::create()->build();
 
@@ -50,6 +50,20 @@ class MaterialController extends Controller{
 //            'json' => $data,
 //            ]
 //        );
+    }
+
+    /**
+     * @Route("/material/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getMaterialAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $material = $em->getRepository(Material::class)->find($id);
+        $data = $serializer->serialize($material, 'json');
+        
+        return new Response($data);
     }
     
     /**

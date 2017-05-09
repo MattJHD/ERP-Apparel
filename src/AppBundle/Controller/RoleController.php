@@ -49,6 +49,21 @@ class RoleController extends Controller{
 //            ]
 //        );
     }
+
+
+    /**
+     * @Route("/role/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getRoleAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $role = $em->getRepository(Role::class)->find($id);
+        $data = $serializer->serialize($role, 'json');
+        
+        return new Response($data);
+    }
     
     /**
      * @Method("POST")

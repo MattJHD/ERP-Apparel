@@ -51,6 +51,20 @@ class GroupController extends Controller{
 //            ]
 //        );
     }
+
+    /**
+     * @Route("/group/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getGroupAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $group = $em->getRepository(Group::class)->find($id);
+        $data = $serializer->serialize($group, 'json');
+        
+        return new Response($data);
+    }
     
     /**
      * @Method("POST")

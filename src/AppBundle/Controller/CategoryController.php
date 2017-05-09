@@ -52,6 +52,20 @@ class CategoryController extends Controller{
 //            ]
 //        );
     }
+
+     /**
+     * @Route("/category/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getCategoryAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $category = $em->getRepository(Category::class)->find($id);
+        $data = $serializer->serialize($category, 'json');
+        
+        return new Response($data);
+    }
     
     /**
      * @Method("POST")

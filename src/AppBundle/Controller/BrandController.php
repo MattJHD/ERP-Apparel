@@ -53,6 +53,20 @@ class BrandController extends Controller{
 //        );
     }
 
+     /**
+     * @Route("/brand/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getBrandAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $brand = $em->getRepository(Brand::class)->find($id);
+        $data = $serializer->serialize($brand, 'json');
+        
+        return new Response($data);
+    }
+
     
     /**
      * @Method("POST")

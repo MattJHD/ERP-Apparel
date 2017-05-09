@@ -51,6 +51,20 @@ class PermissionController extends Controller{
 //            ]
 //        );
     }
+
+    /**
+     * @Route("/permission/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getPermissionAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $permission = $em->getRepository(Permission::class)->find($id);
+        $data = $serializer->serialize($permission, 'json');
+        
+        return new Response($data);
+    }
     
     /**
      * @Method("POST")

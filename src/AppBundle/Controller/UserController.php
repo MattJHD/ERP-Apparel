@@ -51,6 +51,20 @@ class UserController extends Controller{
 //            ]
 //        );
     }
+
+    /**
+     * @Route("/user/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getUserAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository(User::class)->find($id);
+        $data = $serializer->serialize($user, 'json');
+        
+        return new Response($data);
+    }
     
     /**
      * @Method("POST")
