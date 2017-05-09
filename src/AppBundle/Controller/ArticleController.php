@@ -86,12 +86,19 @@ class ArticleController extends Controller {
     /**
      * @Route("/article")  
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'un article",
+     *  filters={
+     *      {"name"="article", "dataType"="string"}
+     *  },
+     *    output= { "class"=Article::class, "collection"=false}
+     * )
      */
     public function postArticleAction(Request $request){
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"articleTestPost","price":99,"size":"XL","categories":[{"id":"2", "name":"categorieTestPost"}],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2014-11-30"}';
+        $jsonData = '{"id":"","name":"articleTestPost","price":99,"size":"XL","categories":[{"id":"3", "name":"categorieTesttreee"}],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2014-11-30"}';
         
         $object = $serializer->deserialize($jsonData, Article::class, 'json');
         
