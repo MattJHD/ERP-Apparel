@@ -18,12 +18,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class ArticleController extends Controller {
     
-    public function indexAction(){
-        
-    }
-    
     /**
      * @Route("/articles")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des articles de l'application",
      *  filters={
@@ -61,6 +58,20 @@ class ArticleController extends Controller {
 //            'json' => $data,
 //            ]
 //        );
+    }
+    
+    /**
+     * @Route("/article/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     */
+    public function getArticleAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $article = $em->getRepository(Article::class)->find($id);
+        $data = $serializer->serialize($article, 'json');
+        
+        return new Response($data);
     }
     
     /**
