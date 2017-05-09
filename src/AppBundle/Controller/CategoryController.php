@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Category;
+use AppBundle\Form\CategoryType;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -68,11 +70,39 @@ class CategoryController extends Controller{
     }
     
     /**
+     * @Route("/category")  
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'une categorie",
+     *  filters={
+     *      {"name"="category", "dataType"="string"}
+     *  },
+     *    output= { "class"=Category::class, "collection"=false}
+     * )
      */
-    public function postCategoryAction(){
+    public function postCategoryAction(Request $request){
+        
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = '{"id":"","name":"categoryTestPost"}';
+        
+        $object = $serializer->deserialize($jsonData, Category::class, 'json');
         
         $category = new Category();
+        
+        $form = $this->createForm(CategoryType::class, $category);
+        
+        $form->submit($request->request->all());
+        
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($object);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $form;
+        }
         
     }
 }
