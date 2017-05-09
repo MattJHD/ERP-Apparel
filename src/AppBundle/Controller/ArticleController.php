@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Article;
@@ -63,7 +64,7 @@ class ArticleController extends Controller {
     }
     
     /**
-     * @Route("/article/{id}", requirements={"id":"\d+"})
+     * @Route("/articles/{id}", requirements={"id":"\d+"})
      * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste d'un article par son id",
@@ -78,13 +79,17 @@ class ArticleController extends Controller {
         $serializer = SerializerBuilder::create()->build();
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository(Article::class)->find($id);
+         if(empty($article))
+        {
+            return new JsonResponse(['message' => 'Article not found'], Response::HTTP_NOT_FOUND);
+        }
         $data = $serializer->serialize($article, 'json');
         
         return new Response($data);
     }
     
     /**
-     * @Route("/article")  
+     * @Route("/articles")  
      * @Method("POST")
      * @ApiDoc(
      *  description="Ajout d'un article",
@@ -113,10 +118,52 @@ class ArticleController extends Controller {
             $em->persist($object);
             $em->flush();
             
-            return new Response("OK");
+            return new Response("OK POST");
         }else{
             return $form;
         }
         
     }
+    
+    /**
+     * @Route("/articles/{id}")  
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'un article",
+     *  filters={
+     *      {"name"="article", "dataType"="string"}
+     *  },
+     *    output= { "class"=Article::class, "collection"=false}
+     * )
+     */
+    public function patchArticleAction($id, Request $request){
+        
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = '{"id":"13","name":"articleTreize","price":"150","size":"XL","categories":[],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2016-11-30"}';
+        
+        $thisArticle = $serializer->deserialize($jsonData, Article::class, 'json');
+
+        $article = new Article();
+        
+        $form = $this->createForm(ArticleType::class, $thisArticle);
+
+        $form->submit($request->request->all(), false);
+
+        if ($form->isValid()) {
+            $em = $this->get('doctrine.orm.entity_manager');
+            
+            $em->merge($thisArticle);
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return $form;
+        }
+    }
+    
+    
+    
+    
 }
