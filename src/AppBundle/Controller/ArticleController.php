@@ -142,7 +142,7 @@ class ArticleController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         
-        $jsonData = '{"id":"13","name":"articleTreize","price":"150","size":"XL","categories":[],"materials":[],"colors":[],"brands":[],"shops":[],"solded":false,"sold_by":"Marco","sold_at":"2016-11-30"}';
+        $jsonData = $request->request->all();
         
         $thisArticle = $serializer->deserialize($jsonData, Article::class, 'json');
 
