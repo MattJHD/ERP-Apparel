@@ -146,6 +146,7 @@ class ArticleController extends Controller {
         
         $thisArticle = $serializer->deserialize($jsonData, Article::class, 'json');
 
+        
         $article = new Article();
         
         $form = $this->createForm(ArticleType::class, $thisArticle);
