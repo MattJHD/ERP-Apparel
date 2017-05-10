@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Material;
+use AppBundle\Form\MaterialType;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -67,11 +69,39 @@ class MaterialController extends Controller{
     }
     
     /**
+     * @Route("/materials")  
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'un material",
+     *  filters={
+     *      {"name"="material", "dataType"="string"}
+     *  },
+     *    output= { "class"=Material::class, "collection"=false}
+     * )
      */
-    public function postMaterialAction(){
+    public function postMaterialAction(Request $request){
         
-        $article = new Material();
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = '{"id":"","name":"materialTestPost"}';
+        
+        $object = $serializer->deserialize($jsonData, Material::class, 'json');
+        
+        $material = new Material();
+        
+        $form = $this->createForm(MaterialType::class, $material);
+        
+        $form->submit($request->request->all());
+        
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($object);
+            $em->flush();
+            
+            return new Response("OK POST");
+        }else{
+            return $form;
+        }
         
     }
 }

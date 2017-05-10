@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Color;
+use AppBundle\Form\ColorType;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -68,11 +70,39 @@ class ColorController extends Controller{
     }
 
     /**
+     * @Route("/color")  
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'une couleur",
+     *  filters={
+     *      {"name"="color", "dataType"="string"}
+     *  },
+     *    output= { "class"=Color::class, "collection"=false}
+     * )
      */
-    public function postColorAction(){
+    public function postColorAction(Request $request){
         
-        $article = new Color();
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = '{"id":"","name":"colorTestPost"}';
+        
+        $object = $serializer->deserialize($jsonData, Color::class, 'json');
+        
+        $color = new Color();
+        
+        $form = $this->createForm(ColorType::class, $color);
+        
+        $form->submit($request->request->all());
+        
+        if($form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($object);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $form;
+        }
         
     }
 }
