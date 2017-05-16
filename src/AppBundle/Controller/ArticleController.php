@@ -104,31 +104,19 @@ class ArticleController extends Controller {
         
         $serializer = SerializerBuilder::create()->build();
         
-        //$jsonData = '{"id":"","name":"articleTest","price":100,"size":"S","categories":[{"id":"", "name":"categorieTest"}],"materials":[{"id":"", "name":"materialTestInsert"}],"colors":[{"id":"", "name":"color1"}],"brands":[{"id":"", "name":"brand1"}],"shops":[{"id":"", "name":"shop1", "localisation": "Marseille"}],"solded":1,"sold_by":"Toto","sold_at":"2014-11-30"}';
         $jsonData = $request->getContent();
         //file_put_contents(__DIR__."/debug_tmp", var_export($jsonData, true));
 
-    
-        
         $article = $serializer->deserialize($jsonData, Article::class, 'json');
-//        dump($article);
-//        die();
         
         $errors = $this->get("validator")->validate($article);
-        //$form = $this->get('form.factory')->createNamed("",ArticleType::class, $article);
-        //$form = $this->createForm(ArticleType::class, $article);
-        
-        //$form->submit($request);
-        
-//        dump($object);
-//        die();
        
         if(count($errors) == 0){
             $em = $this->getDoctrine()->getManager();
             
             $category = $em->merge($article->getCategory());
             $article->setCategory($category);
-            
+      
             $brand = $em->merge($article->getBrand());
             $article->setBrand($brand);
             
@@ -136,27 +124,26 @@ class ArticleController extends Controller {
             $article->setShop($shop);
             
             $materialsObject = $article->getMaterials();
-            $materialsArray = $serializer->toArray($materialsObject);
-            $materialsCollection = new ArrayCollection(array_merge($materialsArray));
-            dump($materialsCollection);
-            die();
-            //$materials = $em->merge($materialsCollection);
-            $article->setMaterials($materials);
+            $materialsCollection = new ArrayCollection();
+            foreach ($materialsObject as $key => $element) {
+                $materialsCollection ->add($em->merge($element));
+            }
+            $article->setMaterials($materialsCollection);
+            
 
             $colorsObject = $article->getColors();
-            $colorsArray = $serializer->toArray($colorsObject);
-            $colorsCollection = new ArrayCollection($colorsArray);
-            $colors = $em->merge($colorsCollection);
-            $article->setColors($colors);
+            $colorsCollection = new ArrayCollection();
+            foreach($colorsObject as $key => $element) { 
+                $colorsCollection -> add($em->merge($element));
+                
+            }
+            $article->setColors($colorsCollection);
             
             $em->persist($article);
-            
             $em->flush();
        
             return new JsonResponse("OK POST");
         }  else {
-            dump($errors);
-            die();
             return new JsonResponse("ERROR-NOT-VALID");
         }
         

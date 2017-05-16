@@ -5,6 +5,8 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Description of Article
  *
@@ -161,12 +163,14 @@ class Article {
         $this->category = $category;
     }
             
-    function setMaterials($materials) {
+    function setMaterials( $materials) {
         $this->materials = $materials;
+        return $this;
     }
 
-    function setColors($colors) {
+    function setColors( $colors) {
         $this->colors = $colors;
+        return $this;
     }
     
     function setBrand($brand) {
@@ -197,8 +201,8 @@ class Article {
      */
     public function __construct()
     {
-        $this->materials = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->colors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->materials = new ArrayCollection();
+        $this->colors = new ArrayCollection();
     }
 
     /**
