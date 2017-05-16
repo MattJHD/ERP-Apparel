@@ -20,10 +20,11 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class ShopController extends Controller{
     /**
      * @Route("/shops")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des magasins de l'application",
      *  filters={
-     *      {"name"="shops", "dataType"="string"}
+     *      {"name"="shop", "dataType"="string"}
      *  },
      *    output= { "class"=Shop::class, "collection"=true, "groups"={"Shops"} }
      * )
@@ -51,7 +52,7 @@ class ShopController extends Controller{
     }
 
      /**
-     * @Route("/shop/{id}", requirements={"id":"\d+"})
+     * @Route("/shops/{id}", requirements={"id":"\d+"})
      * @Method("GET")
      */
     public function getRoleAction($id){

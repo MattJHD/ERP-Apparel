@@ -23,6 +23,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class MaterialController extends Controller{
     /**
      * @Route("/materials")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des materiaux de l'application",
      *  filters={
@@ -55,8 +56,15 @@ class MaterialController extends Controller{
     }
 
     /**
-     * @Route("/material/{id}", requirements={"id":"\d+"})
+     * @Route("/materials/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère une matière par son id",
+     *  filters={
+     *      {"name"="material", "dataType"="string"}
+     *  },
+     *    output= { "class"=Material::class, "collection"=false}
+     * )
      */
     public function getMaterialAction($id){
         //jms

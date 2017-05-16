@@ -24,6 +24,7 @@ class BrandController extends Controller{
 
     /**
      * @Route("/brands")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des marques de l'application",
      *  filters={
@@ -56,8 +57,15 @@ class BrandController extends Controller{
     }
 
      /**
-     * @Route("/brand/{id}", requirements={"id":"\d+"})
+     * @Route("/brands/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère une marque par son id",
+     *  filters={
+     *      {"name"="brands", "dataType"="string"}
+     *  },
+     *    output= { "class"=Brand::class, "collection"=false}
+     * )
      */
     public function getBrandAction($id){
         //jms

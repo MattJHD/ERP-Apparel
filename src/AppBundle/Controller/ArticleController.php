@@ -12,6 +12,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 
 use JMS\Serializer\SerializerBuilder;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 /**
@@ -38,7 +39,7 @@ class ArticleController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository(Article::class)->findAll();
-
+        
         /*$article = new Article();
         
         $article->setName("Toto");
@@ -67,7 +68,7 @@ class ArticleController extends Controller {
      * @Route("/articles/{id}", requirements={"id":"\d+"})
      * @Method("GET")
      * @ApiDoc(
-     *  description="Récupère la liste d'un article par son id",
+     *  description="Récupère un article par son id",
      *  filters={
      *      {"name"="article", "dataType"="string"}
      *  },
@@ -103,24 +104,60 @@ class ArticleController extends Controller {
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"articleTestPost","price":66,"size":"XS","categories":[{"id":"", "name":"categorieTesttreee"}],"materials":[{"id":"", "name":"materialTestInsert"}],"colors":[{"id":"", "name":"colorTestInsert"}],"brands":[{"id":"", "name":"brandTesttreee"}],"shops":[{"id":"", "name":"shopTesttreee", "localisation": "Strasbourg"}],"solded":false,"sold_by":"Marco","sold_at":"2014-11-30"}';
+        //$jsonData = '{"id":"","name":"articleTest","price":100,"size":"S","categories":[{"id":"", "name":"categorieTest"}],"materials":[{"id":"", "name":"materialTestInsert"}],"colors":[{"id":"", "name":"color1"}],"brands":[{"id":"", "name":"brand1"}],"shops":[{"id":"", "name":"shop1", "localisation": "Marseille"}],"solded":1,"sold_by":"Toto","sold_at":"2014-11-30"}';
+        $jsonData = $request->getContent();
+        //file_put_contents(__DIR__."/debug_tmp", var_export($jsonData, true));
+
+    
         
-        $object = $serializer->deserialize($jsonData, Article::class, 'json');
+        $article = $serializer->deserialize($jsonData, Article::class, 'json');
+//        dump($article);
+//        die();
         
-        $article = new Article();
+        $errors = $this->get("validator")->validate($article);
+        //$form = $this->get('form.factory')->createNamed("",ArticleType::class, $article);
+        //$form = $this->createForm(ArticleType::class, $article);
         
-        $form = $this->createForm(ArticleType::class, $article);
+        //$form->submit($request);
         
-        $form->submit($request->request->all());
-        
-        if($form->isValid()){
+//        dump($object);
+//        die();
+       
+        if(count($errors) == 0){
             $em = $this->getDoctrine()->getManager();
-            $em->persist($object);
-            $em->flush();
             
-            return new Response("OK POST");
-        }else{
-            return $form;
+            $category = $em->merge($article->getCategory());
+            $article->setCategory($category);
+            
+            $brand = $em->merge($article->getBrand());
+            $article->setBrand($brand);
+            
+            $shop = $em->merge($article->getShop());
+            $article->setShop($shop);
+            
+            $materialsObject = $article->getMaterials();
+            $materialsArray = $serializer->toArray($materialsObject);
+            $materialsCollection = new ArrayCollection(array_merge($materialsArray));
+            dump($materialsCollection);
+            die();
+            //$materials = $em->merge($materialsCollection);
+            $article->setMaterials($materials);
+
+            $colorsObject = $article->getColors();
+            $colorsArray = $serializer->toArray($colorsObject);
+            $colorsCollection = new ArrayCollection($colorsArray);
+            $colors = $em->merge($colorsCollection);
+            $article->setColors($colors);
+            
+            $em->persist($article);
+            
+            $em->flush();
+       
+            return new JsonResponse("OK POST");
+        }  else {
+            dump($errors);
+            die();
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
@@ -143,7 +180,7 @@ class ArticleController extends Controller {
         $em = $this->getDoctrine()->getManager();
         
         $jsonData = $request->request->all();
-        
+
         $thisArticle = $serializer->deserialize($jsonData, Article::class, 'json');
 
         

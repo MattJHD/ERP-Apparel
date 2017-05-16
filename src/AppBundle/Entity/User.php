@@ -86,7 +86,7 @@ class User {
     
     /**
      * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users")
-     * @Type("int")
+     * @Type("ArrayCollection<AppBundle\Entity\Shop>")
      */
     private $shops;
     
@@ -100,6 +100,7 @@ class User {
     
     public function __construct() {
        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
+       $this->shops = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     //GETTER

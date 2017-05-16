@@ -37,8 +37,16 @@ class Shop {
     /**
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="shops")
+     * @Type("ArrayCollection<AppBundle\Entity\User>")
      */
     private $users;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="shop")
+     * @Type("AppBundle\Entity\Article")
+     */
+    private $articles;
 
     
     
@@ -59,8 +67,11 @@ class Shop {
         return $this->users;
     }
 
+    function getArticles() {
+        return $this->articles;
+    }
 
-    
+        
     
     //SETTERS
     function setId($id) {
@@ -79,7 +90,11 @@ class Shop {
         $this->users = $users;
     }
 
-    
+    function setArticles($articles) {
+        $this->articles = $articles;
+    }
+
+        
 
     /**
      * Constructor
@@ -87,6 +102,7 @@ class Shop {
     public function __construct()
     {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

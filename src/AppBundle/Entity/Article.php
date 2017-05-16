@@ -42,34 +42,34 @@ class Article {
     private $size;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="articles", cascade={"persist", "remove"})
-     * @Type("ArrayCollection<AppBundle\Entity\Category>")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles", cascade={"persist", "remove", "merge"})
+     * @Type("AppBundle\Entity\Category")
      */
-    private $categories;
+    private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Material", inversedBy="articles", cascade={"persist", "remove", "merge"})
      * @Type("ArrayCollection<AppBundle\Entity\Material>")
      */
     private $materials;
 
      /**
-     * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Color", inversedBy="articles", cascade={"persist", "remove", "merge"})
       * @Type("ArrayCollection<AppBundle\Entity\Color>")
      */
     private $colors;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Brand", inversedBy="articles", cascade={"persist", "remove"})
-     * @Type("ArrayCollection<AppBundle\Entity\Brand>")
+     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="articles", cascade={"persist", "remove", "merge"})
+     * @Type("AppBundle\Entity\Brand")
      */
-    private $brands;
+    private $brand;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="articles", cascade={"persist", "remove"})
-     * @Type("ArrayCollection<AppBundle\Entity\Shop>")
+     * @ORM\ManyToOne(targetEntity="Shop", inversedBy="articles", cascade={"persist", "remove", "merge"})
+     * @Type("AppBundle\Entity\Shop")
      */
-    private $shops;
+    private $shop;
 
     /**
      * @ORM\Column(type="boolean")
@@ -106,11 +106,11 @@ class Article {
     function getSize() {
         return $this->size;
     }
-
-    function getCategories() {
-        return $this->categories;
+    
+    function getCategory() {
+        return $this->category;
     }
-
+        
     function getMaterials() {
         return $this->materials;
     }
@@ -119,14 +119,14 @@ class Article {
         return $this->colors;
     }
     
-    function getBrands() {
-        return $this->brands;
+    function getBrand() {
+        return $this->brand;
     }
 
-    function getShops() {
-        return $this->shops;
+    function getShop() {
+        return $this->shop;
     }
-
+    
     function getSolded() {
         return $this->solded;
     }
@@ -157,10 +157,10 @@ class Article {
         $this->size = $size;
     }
 
-    function setCategories($categories) {
-        $this->categories = $categories;
+    function setCategory($category) {
+        $this->category = $category;
     }
-    
+            
     function setMaterials($materials) {
         $this->materials = $materials;
     }
@@ -169,14 +169,14 @@ class Article {
         $this->colors = $colors;
     }
     
-    function setBrands($brands) {
-        $this->brands = $brands;
+    function setBrand($brand) {
+        $this->brand = $brand;
     }
 
-    function setShops($shops) {
-        $this->shops = $shops;
+    function setShop($shop) {
+        $this->shop = $shop;
     }
-        
+            
     function setSolded($solded) {
         $this->solded = $solded;
     }
@@ -207,11 +207,9 @@ class Article {
      * @param \AppBundle\Entity\Material $materials
      * @return Article
      */
-    public function addMaterial(\AppBundle\Entity\Material $materials)
+    public function addMaterial(\AppBundle\Entity\Material $material = null)
     {
-        $this->materials[] = $materials;
-
-        return $this;
+        $this->materials = add($material);
     }
 
     /**
@@ -219,32 +217,31 @@ class Article {
      *
      * @param \AppBundle\Entity\Material $materials
      */
-    public function removeMaterial(\AppBundle\Entity\Material $materials)
+    public function removeMaterial(\AppBundle\Entity\Material $material)
     {
-        $this->materials->removeElement($materials);
+        $this->materials->removeElement($material);
     }
 
 
     /**
      * Add colors
      *
-     * @param \AppBundle\Entity\Color $colors
+     * @param \AppBundle\Entity\Color $color
      * @return Article
      */
-    public function addColor(\AppBundle\Entity\Color $colors)
+    public function addColor(\AppBundle\Entity\Color $color = null)
     {
-        $this->colors[] = $colors;
-
-        return $this;
+        $this->colors = add($color);
     }
 
     /**
      * Remove colors
      *
-     * @param \AppBundle\Entity\Color $colors
+     * @param \AppBundle\Entity\Color $color
      */
-    public function removeColor(\AppBundle\Entity\Color $colors)
+    public function removeColor(\AppBundle\Entity\Color $color)
     {
-        $this->colors->removeElement($colors);
+        $this->colors->removeElement($color);
     }
+    
 }

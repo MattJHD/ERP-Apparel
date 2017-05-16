@@ -1,0 +1,95 @@
+array (
+  'name' => 'test',
+  'price' => 333,
+  'size' => 'M',
+  'shops' => 
+  array (
+    0 => 
+    array (
+      0 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            0 => 
+            array (
+              0 => 
+              array (
+                0 => 
+                array (
+                  0 => 
+                  array (
+                    0 => 
+                    array (
+                      0 => 
+                      array (
+                        0 => 
+                        array (
+                          0 => 
+                          array (
+                            0 => 
+                            array (
+                              0 => 
+                              array (
+                                0 => 
+                                array (
+                                  'id' => 2,
+                                  'name' => 'Shop 2',
+                                  'localisation' => 'Paris 5',
+                                  'users' => 
+                                  array (
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
+  'categories' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+    ),
+  ),
+  'materials' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+    ),
+    1 => 
+    array (
+      'id' => 2,
+    ),
+  ),
+  'colors' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+    ),
+    1 => 
+    array (
+      'id' => 2,
+    ),
+  ),
+  'brands' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+    ),
+  ),
+)

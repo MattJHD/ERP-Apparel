@@ -24,6 +24,7 @@ class CategoryController extends Controller{
     
      /**
      * @Route("/categories")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des categories de l'application",
      *  filters={
@@ -56,8 +57,15 @@ class CategoryController extends Controller{
     }
 
      /**
-     * @Route("/category/{id}", requirements={"id":"\d+"})
+     * @Route("/categories/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère une categorie par son id",
+     *  filters={
+     *      {"name"="category", "dataType"="string"}
+     *  },
+     *    output= { "class"=Category::class, "collection"=false}
+     * )
      */
     public function getCategoryAction($id){
         //jms

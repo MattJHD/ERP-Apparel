@@ -24,6 +24,7 @@ class ColorController extends Controller{
     
      /**
      * @Route("/colors")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des couleurs de l'application",
      *  filters={
@@ -56,8 +57,15 @@ class ColorController extends Controller{
     }
     
      /**
-     * @Route("/color/{id}", requirements={"id":"\d+"})
+     * @Route("/colors/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère une couleur par son id",
+     *  filters={
+     *      {"name"="color", "dataType"="string"}
+     *  },
+     *    output= { "class"=Color::class, "collection"=false}
+     * )
      */
     public function getColorAction($id){
         //jms

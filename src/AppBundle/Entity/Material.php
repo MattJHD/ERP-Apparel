@@ -29,6 +29,7 @@ class Material {
 
     /**
      * @ORM\ManyToMany(targetEntity="Article", mappedBy="materials")
+     * @Type("ArrayCollection<AppBundle\Entity\Article>")
      */
     private $articles;
 
