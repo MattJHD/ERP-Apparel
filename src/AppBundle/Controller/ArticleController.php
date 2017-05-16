@@ -166,25 +166,30 @@ class ArticleController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         
-        $jsonData = $request->request->all();
-
+        $jsonData = $request->getContent();
+        //$jsonData = json_decode($request->getContent(), true);
+//        dump($jsonData);
+//        die();
+        $article = new Article();
         $thisArticle = $serializer->deserialize($jsonData, Article::class, 'json');
 
-        
-        $article = new Article();
-        
-        $form = $this->createForm(ArticleType::class, $thisArticle);
+        $errors = $this->get("validator")->validate($thisArticle);
 
-        $form->submit($request->request->all(), false);
-
-        if ($form->isValid()) {
-            $em = $this->get('doctrine.orm.entity_manager');
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
             
             $em->merge($thisArticle);
+            //$em->persist($article);
+            
             $em->flush();
             return new Response("OK PATCH");
         } else {
-            return $form;
+            $errors = $form->getErrors(true);
+            foreach($errors as $key => $value){
+                dump($value);
+            }
+            die();
+            return new JsonResponse("ERROR-NOT-VALID");
         }
     }
     
