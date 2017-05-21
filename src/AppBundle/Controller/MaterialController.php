@@ -80,7 +80,7 @@ class MaterialController extends Controller{
      * @Route("/materials")  
      * @Method("POST")
      * @ApiDoc(
-     *  description="Ajout d'un material",
+     *  description="Ajout d'une matière",
      *  filters={
      *      {"name"="material", "dataType"="string"}
      *  },
@@ -91,24 +91,55 @@ class MaterialController extends Controller{
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"materialTestPost"}';
+        $jsonData = $request->getContent();
         
-        $object = $serializer->deserialize($jsonData, Material::class, 'json');
+        $material = $serializer->deserialize($jsonData, Material::class, 'json');
         
-        $material = new Material();
+        $errors = $this->get("validator")->validate($material);
         
-        $form = $this->createForm(MaterialType::class, $material);
-        
-        $form->submit($request->request->all());
-        
-        if($form->isValid()){
+        if(count($errors) == 0){
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($object);
+            $em->persist($material);
             $em->flush();
             
-            return new Response("OK POST");
+            return new Response("OK");
         }else{
-            return $form;
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/materials/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'une matière",
+     *  filters={
+     *      {"name"="material", "dataType"="string"}
+     *  },
+     *    output= { "class"=Material::class, "collection"=false}
+     * )
+     */
+    public function patchMaterialAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+        
+        $thisMaterial = $serializer->deserialize($jsonData, Material::class, 'json');
+        $errors = $this->get("validator")->validate($thisMaterial);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisMaterial);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
