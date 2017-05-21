@@ -6,8 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Role;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use JMS\Serializer\SerializerBuilder;
 
@@ -19,6 +21,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class RoleController extends Controller{
      /**
+     * @Method("GET")
      * @Route("/roles")
      * @ApiDoc(
      *  description="Récupère la liste des roles de l'application",
@@ -52,8 +55,15 @@ class RoleController extends Controller{
 
 
     /**
-     * @Route("/role/{id}", requirements={"id":"\d+"})
+     * @Route("/roles/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère un role par son id",
+     *  filters={
+     *      {"name"="role", "dataType"="string"}
+     *  },
+     *    output= { "class"=Role::class, "collection"=false}
+     * )
      */
     public function getRoleAction($id){
         //jms
@@ -66,11 +76,77 @@ class RoleController extends Controller{
     }
     
     /**
+     * @Route("/roles")
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'un role",
+     *  filters={
+     *      {"name"="role", "dataType"="string"}
+     *  },
+     *    output= { "class"=Role::class, "collection"=false}
+     * )
      */
-    public function postRoleAction(){
+    public function postRoleAction(Request $request){
         
-        $role = new Role();
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = $request->getContent();
+        
+        $role = $serializer->deserialize($jsonData, Role::class, 'json');
+
+        $errors = $this->get("validator")->validate($role);
+        
+        if(count($errors) == 0){
+            $em = $this->getDoctrine()->getManager();
+            
+            $rolesObject = $role->getPermissions();
+            $rolesCollection = new ArrayCollection();
+            foreach($rolesObject as $key => $element){
+                $rolesCollection->add($em->merge($element));
+            }
+            $role->setPermissions($rolesCollection);
+            
+            $em->persist($role);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/roles/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'un role",
+     *  filters={
+     *      {"name"="groupe", "dataType"="string"}
+     *  },
+     *    output= { "class"=Role::class, "collection"=false}
+     * )
+     */
+    public function patchGroupAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+    
+        $thisRole = $serializer->deserialize($jsonData, Role::class, 'json');
+        $errors = $this->get("validator")->validate($thisRole);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisRole);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return new JsonResponse("ERROR-NOT-VALID");
+        }
         
     }
 }
