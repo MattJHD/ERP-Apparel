@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Permission;
 
@@ -20,6 +21,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class PermissionController extends Controller{
     /**
+     * @Method("GET")
      * @Route("/permissions")
      * @ApiDoc(
      *  description="Récupère la liste des permissions de l'application",
@@ -53,8 +55,15 @@ class PermissionController extends Controller{
     }
 
     /**
-     * @Route("/permission/{id}", requirements={"id":"\d+"})
+     * @Route("/permissions/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère une permission par son id",
+     *  filters={
+     *      {"name"="permissions", "dataType"="string"}
+     *  },
+     *    output= { "class"=Permission::class, "collection"=false}
+     * )
      */
     public function getPermissionAction($id){
         //jms
@@ -67,11 +76,70 @@ class PermissionController extends Controller{
     }
     
     /**
+     * @Route("/permissions")
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'un permission",
+     *  filters={
+     *      {"name"="permissions", "dataType"="string"}
+     *  },
+     *    output= { "class"=Permission::class, "collection"=false}
+     * )
      */
-    public function postPermissionAction(){
+    public function postPermissionAction(Request $request){
         
-        $permission = new Permission();
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = $request->getContent();
+        
+        $permission = $serializer->deserialize($jsonData, Permission::class, 'json');
+
+        $errors = $this->get("validator")->validate($permission);
+        
+        if(count($errors) == 0){
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($permission);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/permissions/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'un permissions",
+     *  filters={
+     *      {"name"="permission", "dataType"="string"}
+     *  },
+     *    output= { "class"=Permission::class, "collection"=false}
+     * )
+     */
+    public function patchPermissionAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+    
+        $thisPermission = $serializer->deserialize($jsonData, Permission::class, 'json');
+        $errors = $this->get("validator")->validate($thisPermission);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisPermission);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return new JsonResponse("ERROR-NOT-VALID");
+        }
         
     }
 }
