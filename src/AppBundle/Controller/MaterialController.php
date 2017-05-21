@@ -127,7 +127,7 @@ class MaterialController extends Controller{
         $em = $this->getDoctrine()->getManager();
         
         $jsonData = $request->getContent();
-        
+    
         $thisMaterial = $serializer->deserialize($jsonData, Material::class, 'json');
         $errors = $this->get("validator")->validate($thisMaterial);
 
