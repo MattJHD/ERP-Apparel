@@ -184,11 +184,11 @@ class ArticleController extends Controller {
             $em->flush();
             return new Response("OK PATCH");
         } else {
-            $errors = $form->getErrors(true);
-            foreach($errors as $key => $value){
-                dump($value);
-            }
-            die();
+//            $errors = $form->getErrors(true);
+//            foreach($errors as $key => $value){
+//                dump($value);
+//            }
+//            die();
             return new JsonResponse("ERROR-NOT-VALID");
         }
     }
