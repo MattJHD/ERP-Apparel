@@ -150,7 +150,7 @@ class ArticleController extends Controller {
     }
     
     /**
-     * @Route("/articles/{id}")  
+     * @Route("/articles/{id}", requirements={"id":"\d+"})  
      * @Method("PATCH")
      * @ApiDoc(
      *  description="Modification d'un article",
