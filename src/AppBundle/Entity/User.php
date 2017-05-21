@@ -79,19 +79,19 @@ class User {
     private $isactive;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Group", inversedBy="users", cascade={"persist", "remove", "merge"})
      * @Type("ArrayCollection<AppBundle\Entity\Group>")
      */
     private $groups;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Shop", inversedBy="users", cascade={"persist", "remove", "merge"})
      * @Type("ArrayCollection<AppBundle\Entity\Shop>")
      */
     private $shops;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="Role", inversedBy="users", cascade={"persist", "remove", "merge"})
      * @Type("AppBundle\Entity\Role")
      */
     private $role;

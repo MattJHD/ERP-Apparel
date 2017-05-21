@@ -39,7 +39,7 @@ class Role {
     
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Permission", inversedBy="roles")
+     * @ORM\ManyToMany(targetEntity="Permission", inversedBy="roles", cascade={"persist", "remove", "merge"})
      * 
      * @Type("ArrayCollection<AppBundle\Entity\Permission>")
      */
