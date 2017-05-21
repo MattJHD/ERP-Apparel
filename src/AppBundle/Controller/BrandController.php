@@ -79,7 +79,7 @@ class BrandController extends Controller{
 
     
     /**
-     * @Route("/brand")  
+     * @Route("/brands")  
      * @Method("POST")
      * @ApiDoc(
      *  description="Ajout d'une marque",
@@ -93,24 +93,61 @@ class BrandController extends Controller{
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"brandTestPost"}';
+        $jsonData = $request->getContent();
         
-        $object = $serializer->deserialize($jsonData, Brand::class, 'json');
+        $brand = $serializer->deserialize($jsonData, Brand::class, 'json');
         
-        $brand = new Brand();
+        $errors = $this->get("validator")->validate($brand);
         
-        $form = $this->createForm(BrandType::class, $brand);
-        
-        $form->submit($request->request->all());
-        
-        if($form->isValid()){
+        if(count($errors) == 0){
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($object);
+            $em->persist($brand);
             $em->flush();
             
             return new Response("OK");
         }else{
-            return $form;
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/brands/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'une marque",
+     *  filters={
+     *      {"name"="brand", "dataType"="string"}
+     *  },
+     *    output= { "class"=Brand::class, "collection"=false}
+     * )
+     */
+    public function patchUserAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+        
+        $thisBrand = $serializer->deserialize($jsonData, Brand::class, 'json');
+        $errors = $this->get("validator")->validate($thisBrand);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisBrand);
+            //$em->persist($article);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            $errors = $form->getErrors(true);
+            foreach($errors as $key => $value){
+                dump($value);
+            }
+            die();
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
