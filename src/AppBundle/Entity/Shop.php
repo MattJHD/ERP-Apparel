@@ -34,19 +34,19 @@ class Shop {
      */
     private $localisation;
     
-    /**
-     *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="shops")
-     * @Type("ArrayCollection<AppBundle\Entity\User>")
-     */
-    private $users;
+//    /**
+//     *
+//     * @ORM\ManyToMany(targetEntity="User", mappedBy="shops")
+//     * @Type("ArrayCollection<AppBundle\Entity\User>")
+//     */
+//    private $users;
     
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="shop")
-     * @Type("AppBundle\Entity\Article")
-     */
-    private $articles;
+//    /**
+//     *
+//     * @ORM\OneToMany(targetEntity="Article", mappedBy="shop")
+//     * @Type("AppBundle\Entity\Article")
+//     */
+//    private $articles;
 
     
     

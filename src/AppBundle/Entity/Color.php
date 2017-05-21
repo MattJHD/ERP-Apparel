@@ -27,11 +27,11 @@ class Color {
      */
     private $name;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Article", mappedBy="colors")
-     * @Type("ArrayCollection<AppBundle\Entity\Article>")
-     */
-    private $articles;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Article", mappedBy="colors")
+//     * @Type("ArrayCollection<AppBundle\Entity\Article>")
+//     */
+//    private $articles;
 
     //GETTER
     function getId() {

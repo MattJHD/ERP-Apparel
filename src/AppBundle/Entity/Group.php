@@ -29,12 +29,12 @@ class Group {
      */
     private $name;
     
-    /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
-     * 
-     * @Type("ArrayCollection<AppBundle\Entity\User>")
-     */
-    private $users;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
+//     * 
+//     * @Type("ArrayCollection<AppBundle\Entity\User>")
+//     */
+//    private $users;
     
     
     //GETTERS

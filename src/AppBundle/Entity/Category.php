@@ -30,12 +30,12 @@ class Category {
      */
     private $name;
     
-     /**
-     *
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
-     * @Type("AppBundle\Entity\Article")
-     */
-    private $articles;
+//     /**
+//     *
+//     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+//     * @Type("AppBundle\Entity\Article")
+//     */
+//    private $articles;
  
 
 

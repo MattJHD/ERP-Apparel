@@ -30,12 +30,12 @@ class Permission {
      */
     private $libelle;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Role", mappedBy="permissions")
-     * 
-     * @Type("ArrayCollection<AppBundle\Entity\Role>")
-     */
-    private $roles;
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Role", mappedBy="permissions")
+//     * 
+//     * @Type("ArrayCollection<AppBundle\Entity\Role>")
+//     */
+//    private $roles;
     
     //GETTERS
     function getId() {

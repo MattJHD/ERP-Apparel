@@ -27,12 +27,12 @@ class Brand {
      */
     private $name;
     
-     /**
-     *
-     * @ORM\OneToMany(targetEntity="Article", mappedBy="brand")
-     * @Type("AppBundle\Entity\Article")
-     */
-    private $articles;
+//     /**
+//     *
+//     * @ORM\OneToMany(targetEntity="Article", mappedBy="brand")
+//     * @Type("AppBundle\Entity\Article")
+//     */
+//    private $articles;
 
 
     //GETTER
