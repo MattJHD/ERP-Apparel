@@ -68,7 +68,7 @@ class User {
     
     /**
      * @ORM\Column(type="datetime")
-     * @Type("int")
+     * @Type("DateTime<'Y-m-d'>")
      */
     private $date_creation;
     
@@ -80,7 +80,7 @@ class User {
     
     /**
      * @ORM\ManyToMany(targetEntity="Group", inversedBy="users")
-     * @Type("int")
+     * @Type("ArrayCollection<AppBundle\Entity\Group>")
      */
     private $groups;
     
@@ -92,7 +92,7 @@ class User {
     
     /**
      * @ORM\ManyToOne(targetEntity="Role", inversedBy="users")
-     * @Type("int")
+     * @Type("AppBundle\Entity\Role")
      */
     private $role;
     

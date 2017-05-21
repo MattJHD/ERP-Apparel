@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -16,23 +17,31 @@ class Role {
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Type("int")
      */
     private $id;
     
     /**
      * @ORM\Column(type="boolean")
      * @Assert\NotNull()
+     * 
+     * @Type("boolean")
      */
     private $isactive;
     
     /**
      * @ORM\Column()
+     * 
+     * @Type("string")
      */
     private $libelle;
     
     /**
      *
      * @ORM\ManyToMany(targetEntity="Permission", inversedBy="roles")
+     * 
+     * @Type("ArrayCollection<AppBundle\Entity\Permission>")
      */
     private $permissions;
     

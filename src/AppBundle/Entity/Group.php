@@ -31,6 +31,8 @@ class Group {
     
     /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
+     * 
+     * @Type("ArrayCollection<AppBundle\Entity\User>")
      */
     private $users;
     
