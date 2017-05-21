@@ -78,7 +78,7 @@ class CategoryController extends Controller{
     }
     
     /**
-     * @Route("/category")  
+     * @Route("/categories")  
      * @Method("POST")
      * @ApiDoc(
      *  description="Ajout d'une categorie",
@@ -92,24 +92,61 @@ class CategoryController extends Controller{
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"categoryTestPost"}';
+        $jsonData = $request->getContent();
         
-        $object = $serializer->deserialize($jsonData, Category::class, 'json');
+        $category = $serializer->deserialize($jsonData, Category::class, 'json');
         
-        $category = new Category();
+        $errors = $this->get("validator")->validate($category);
         
-        $form = $this->createForm(CategoryType::class, $category);
-        
-        $form->submit($request->request->all());
-        
-        if($form->isValid()){
+        if(count($errors) == 0){
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($object);
+            $em->persist($category);
             $em->flush();
             
             return new Response("OK");
         }else{
-            return $form;
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/categories/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'une catégorie",
+     *  filters={
+     *      {"name"="category", "dataType"="string"}
+     *  },
+     *    output= { "class"=Category::class, "collection"=false}
+     * )
+     */
+    public function patchCategoryAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+        
+        $thisCategory = $serializer->deserialize($jsonData, Category::class, 'json');
+        $errors = $this->get("validator")->validate($thisCategory);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisCategory);
+            //$em->persist($article);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+//            $errors = $form->getErrors(true);
+//            foreach($errors as $key => $value){
+//                dump($value);
+//            }
+//            die();
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
