@@ -24,6 +24,7 @@ class GroupController extends Controller{
     
      /**
      * @Route("/groups")
+     * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des groupes de l'application",
      *  filters={
@@ -55,8 +56,15 @@ class GroupController extends Controller{
     }
 
     /**
-     * @Route("/group/{id}", requirements={"id":"\d+"})
+     * @Route("/groups/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère un groupe par son id",
+     *  filters={
+     *      {"name"="group", "dataType"="string"}
+     *  },
+     *    output= { "class"=Group::class, "collection"=false}
+     * )
      */
     public function getGroupAction($id){
         //jms
@@ -69,7 +77,7 @@ class GroupController extends Controller{
     }
     
     /**
-     * @Route("/group")  
+     * @Route("/groups")  
      * @Method("POST")
      * @ApiDoc(
      *  description="Ajout d'un groupe",
@@ -83,24 +91,55 @@ class GroupController extends Controller{
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"groupTestPost"}';
+        $jsonData = $request->getContent();
         
-        $object = $serializer->deserialize($jsonData, Group::class, 'json');
+        $group = $serializer->deserialize($jsonData, Group::class, 'json');
+
+        $errors = $this->get("validator")->validate($group);
         
-        $group = new Group();
-        
-        $form = $this->createForm(GroupType::class, $group);
-        
-        $form->submit($request->request->all());
-        
-        if($form->isValid()){
+        if(count($errors) == 0){
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($object);
+            $em->persist($group);
             $em->flush();
             
             return new Response("OK");
         }else{
-            return $form;
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/groups/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'un groupe",
+     *  filters={
+     *      {"name"="groupe", "dataType"="string"}
+     *  },
+     *    output= { "class"=Group::class, "collection"=false}
+     * )
+     */
+    public function patchGroupAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+    
+        $thisGroup = $serializer->deserialize($jsonData, Group::class, 'json');
+        $errors = $this->get("validator")->validate($thisGroup);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisGroup);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
