@@ -78,7 +78,7 @@ class ColorController extends Controller{
     }
 
     /**
-     * @Route("/color")  
+     * @Route("/colors")  
      * @Method("POST")
      * @ApiDoc(
      *  description="Ajout d'une couleur",
@@ -92,24 +92,55 @@ class ColorController extends Controller{
         
         $serializer = SerializerBuilder::create()->build();
         
-        $jsonData = '{"id":"","name":"colorTestPost"}';
+        $jsonData = $request->getContent();
         
-        $object = $serializer->deserialize($jsonData, Color::class, 'json');
+        $color = $serializer->deserialize($jsonData, Color::class, 'json');
         
-        $color = new Color();
+        $errors = $this->get("validator")->validate($color);
         
-        $form = $this->createForm(ColorType::class, $color);
-        
-        $form->submit($request->request->all());
-        
-        if($form->isValid()){
+        if(count($errors) == 0){
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($object);
+            $em->persist($color);
             $em->flush();
             
             return new Response("OK");
         }else{
-            return $form;
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/colors/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'une catégorie",
+     *  filters={
+     *      {"name"="color", "dataType"="string"}
+     *  },
+     *    output= { "class"=Color::class, "collection"=false}
+     * )
+     */
+    public function patchColorAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+        
+        $thisColor = $serializer->deserialize($jsonData, Color::class, 'json');
+        $errors = $this->get("validator")->validate($thisColor);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisColor);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
