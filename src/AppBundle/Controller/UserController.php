@@ -157,7 +157,6 @@ class UserController extends Controller{
         
         $jsonData = $request->getContent();
         
-        $user = new User();
         $thisUser = $serializer->deserialize($jsonData, User::class, 'json');
         $errors = $this->get("validator")->validate($thisUser);
 
