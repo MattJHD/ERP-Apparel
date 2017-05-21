@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Shop;
 
@@ -54,6 +55,13 @@ class ShopController extends Controller{
      /**
      * @Route("/shops/{id}", requirements={"id":"\d+"})
      * @Method("GET")
+      * @ApiDoc(
+     *  description="Récupère un magasin par son id",
+     *  filters={
+     *      {"name"="shop", "dataType"="string"}
+     *  },
+     *    output= { "class"=Shop::class, "collection"=false}
+     * )
      */
     public function getRoleAction($id){
         //jms
@@ -66,11 +74,70 @@ class ShopController extends Controller{
     }
     
     /**
+     * @Route("/shops")
      * @Method("POST")
+     * @ApiDoc(
+     *  description="Ajout d'un magasin",
+     *  filters={
+     *      {"name"="shop", "dataType"="string"}
+     *  },
+     *    output= { "class"=Shop::class, "collection"=false}
+     * )
      */
-    public function postShopAction(){
+    public function postShopAction(Request $request){
         
-        $shop = new Shop();
+        $serializer = SerializerBuilder::create()->build();
+        
+        $jsonData = $request->getContent();
+        
+        $shop = $serializer->deserialize($jsonData, Shop::class, 'json');
+        
+        $errors = $this->get("validator")->validate($shop);
+        
+        if(count($errors) == 0){
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($shop);
+            $em->flush();
+            
+            return new Response("OK");
+        }else{
+            return $errors;
+        }
+        
+    }
+    
+    /**
+     * @Route("/shops/{id}", requirements={"id":"\d+"})
+     * @Method("PATCH")
+     * @ApiDoc(
+     *  description="Modification d'un magasin",
+     *  filters={
+     *      {"name"="material", "dataType"="string"}
+     *  },
+     *    output= { "class"=Material::class, "collection"=false}
+     * )
+     */
+    public function patchMaterialAction($id, Request $request){
+        $serializer = SerializerBuilder::create()->build();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $jsonData = $request->getContent();
+    
+        $thisShop = $serializer->deserialize($jsonData, Shop::class, 'json');
+        $errors = $this->get("validator")->validate($thisShop);
+
+        if (count($errors) == 0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->merge($thisShop);
+            
+            $em->flush();
+            return new Response("OK PATCH");
+        } else {
+            return new JsonResponse("ERROR-NOT-VALID");
+        }
         
     }
 }
