@@ -90,6 +90,12 @@ class Article {
      * @Type("DateTime<'Y-m-d'>")
      */
     private $soldAt;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Type("boolean")
+     */
+    private $onWebsite = false;
     
 
     //GETTERS
@@ -139,6 +145,10 @@ class Article {
 
     function getSoldAt() {
         return $this->soldAt;
+    }
+
+    function getOnWebsite() {
+        return $this->onWebsite;
     }
 
         
@@ -191,6 +201,10 @@ class Article {
 
     function setSoldAt($soldAt) {
         $this->soldAt = $soldAt;
+    }
+
+    function setOnWebsite($onWebsite) {
+        $this->onWebsite = $onWebsite;
     }
 
 

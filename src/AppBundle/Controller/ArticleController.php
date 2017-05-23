@@ -65,6 +65,31 @@ class ArticleController extends Controller {
     }
     
     /**
+     * @Route("/articles/website")
+     * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère les articles à afficher",
+     *  filters={
+     *      {"name"="articlesWebsite", "dataType"="string"}
+     *  },
+     *    output= { "class"=Article::class, "collection"=false}
+     * )
+     */
+    public function getArticlesWebsiteAction(){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        $articles = $em->getRepository(Article::class)->findByOnWebsite(true);
+         if(empty($articles))
+        {
+            return new JsonResponse(['message' => 'Article not found'], Response::HTTP_NOT_FOUND);
+        }
+        $data = $serializer->serialize($articles, 'json');
+        
+        return new Response($data);
+    }
+
+    /**
      * @Route("/articles/{id}", requirements={"id":"\d+"})
      * @Method("GET")
      * @ApiDoc(

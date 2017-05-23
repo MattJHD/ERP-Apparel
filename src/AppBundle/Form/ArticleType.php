@@ -49,6 +49,7 @@ class ArticleType extends AbstractType{
             ->add('solded')
             ->add('sold_by', TextType::class)
             ->add('sold_at', DateType::class)
+            ->add('on_website')
             ;
     }
     
