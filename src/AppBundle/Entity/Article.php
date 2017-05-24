@@ -80,13 +80,13 @@ class Article {
     private $solded = false;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Type("string")
      */
     private $soldBy;
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Type("DateTime<'Y-m-d'>")
      */
     private $soldAt;
