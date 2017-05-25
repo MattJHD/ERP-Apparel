@@ -91,6 +91,12 @@ class Article {
      */
     private $soldAt;
 
+     /**
+     * @ORM\Column(type="string")
+     * @Type("string")
+     */
+    private $link;
+
     /**
      * @ORM\Column(type="boolean")
      * @Type("boolean")
@@ -147,6 +153,10 @@ class Article {
         return $this->soldAt;
     }
 
+    function getLink() {
+        return $this->link;
+    }
+
     function getOnWebsite() {
         return $this->onWebsite;
     }
@@ -201,6 +211,10 @@ class Article {
 
     function setSoldAt($soldAt) {
         $this->soldAt = $soldAt;
+    }
+
+    function setLink($link) {
+        $this->link = $link;
     }
 
     function setOnWebsite($onWebsite) {
