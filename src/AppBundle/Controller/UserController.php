@@ -102,6 +102,8 @@ class UserController extends Controller{
         
         $user = $serializer->deserialize($jsonData, User::class, 'json');
         
+        $user->setRawPassword(uniqid());
+        
         $errors = $this->get("validator")->validate($user);
         
         if(count($errors) == 0){
@@ -125,12 +127,16 @@ class UserController extends Controller{
             $role = $em->merge($user->getRole());
             $user->setRole($role);
             
+            $this->encode($user);
+            
 //        dump($user);
 //        die();
             
             
             $em->persist($user);
             $em->flush();
+            
+            $this->get('mailer.contact_mailer')->sendPwd($user);
             
             return new Response("OK");
         }else{
@@ -177,6 +183,18 @@ class UserController extends Controller{
             return new JsonResponse("ERROR-NOT-VALID");
         }
         
+    }
+    
+    
+    private function encode(User $user)
+    {
+        $encoder = $this->get('security.password_encoder');
+            
+            $encoded = $encoder->encodePassword(
+                    $user,
+                    $user->getRawPassword()
+                    );
+            $user->setPassword($encoded);
     }
     
 }

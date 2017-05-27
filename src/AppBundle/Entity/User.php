@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="apparel_user")
  */
-class User {
+class User implements UserInterface{
     /**
      * @ORM\Id()
      * @ORM\Column(type="integer")
@@ -37,13 +38,37 @@ class User {
     private $firstname;
     
     /**
-     * @ORM\Column(type="string")
+     * @var string
+     * @ORM\Column(unique=true)
+     * @Assert\NotNull()
+     * @Assert\Length(max=255)
+     * 
      * @Type("string")
      */
-    private $login;
+    private $username;
     
     /**
-     * @ORM\Column(type="string")
+     * @var Salt
+     * @ORM\Column()
+     * @Assert\Length(max=255)
+     * @Assert\Type("string")
+     * @Assert\NotNull()
+     * 
+     * @Type("string")
+     */
+    private $salt;
+    
+    /**
+     * @var string
+     * @Assert\Length(max=4096)
+     */
+    private $rawPassword;
+    /**
+     * @var Password
+     * @ORM\Column()
+     * @Assert\Length(max=255)
+     * @Assert\Type("string")
+     * 
      * @Type("string")
      */
     private $password;
@@ -101,6 +126,8 @@ class User {
     public function __construct() {
        $this->groupes = new \Doctrine\Common\Collections\ArrayCollection();
        $this->shops = new \Doctrine\Common\Collections\ArrayCollection();
+       
+       $this->salt=md5(time());
     }
     
     //GETTER
@@ -116,8 +143,16 @@ class User {
         return $this->firstname;
     }
 
-    function getLogin() {
-        return $this->login;
+    function getUsername() {
+        return $this->username;
+    }
+
+    function getSalt() {
+        return $this->salt;
+    }
+
+    function getRawPassword() {
+        return $this->rawPassword;
     }
 
     function getPassword() {
@@ -171,8 +206,16 @@ class User {
         $this->firstname = $firstname;
     }
 
-    function setLogin($login) {
-        $this->login = $login;
+    function setUsername($username) {
+        $this->username = $username;
+    }
+
+    function setSalt($salt) {
+        $this->salt = $salt;
+    }
+    
+    function setRawPassword($rawPassword) {
+        $this->rawPassword = $rawPassword;
     }
 
     function setPassword($password) {
@@ -285,5 +328,13 @@ class User {
     public function removeShop(\AppBundle\Entity\Shop $shops)
     {
         $this->shops->removeElement($shops);
+    }
+    
+    public function getRoles() {
+        return ['ROLE_ADMIN'];
+    }
+    
+    public function eraseCredentials() {
+        $this->rawPassword =null;
     }
 }

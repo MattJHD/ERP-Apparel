@@ -4,6 +4,16 @@ parameters:
     #parameter_name: value
 
 services:
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    upload.service:
+        class: AppBundle\Upload\UploadFile
+        arguments:
+            - '%kernel.root_dir%'
+            
+    mailer.contact_mailer:
+        class: AppBundle\Mailer\ContactMailer
+        arguments: 
+            - '%kernel.root_dir%'
+            - '@templating'
+            - '@mailer'
+            - '%mailer_from_email%'
+            - '%mailer_to_email%'
