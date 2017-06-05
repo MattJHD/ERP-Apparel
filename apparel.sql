@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Lun 08 Mai 2017 à 17:26
+-- Généré le :  Lun 05 Juin 2017 à 23:37
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -34,16 +34,30 @@ CREATE TABLE IF NOT EXISTS `apparel_article` (
   `solded` tinyint(1) NOT NULL,
   `sold_by` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sold_at` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `category_id` int(11) DEFAULT NULL,
+  `brand_id` int(11) DEFAULT NULL,
+  `shop_id` int(11) DEFAULT NULL,
+  `on_website` tinyint(1) NOT NULL,
+  `link` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_F7FD148E12469DE2` (`category_id`),
+  KEY `IDX_F7FD148E44F5D008` (`brand_id`),
+  KEY `IDX_F7FD148E4D16C4DD` (`shop_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
 
 --
 -- Contenu de la table `apparel_article`
 --
 
-INSERT INTO `apparel_article` (`id`, `name`, `price`, `size`, `solded`, `sold_by`, `sold_at`) VALUES
-(2, 'Test article', 42, 'M', 2, 'Sara', '2017-04-05 00:00:00'),
-(3, 'article 2', 150, 'S', 3, 'John', '2017-04-03 00:00:00');
+INSERT INTO `apparel_article` (`id`, `name`, `price`, `size`, `solded`, `sold_by`, `sold_at`, `category_id`, `brand_id`, `shop_id`, `on_website`, `link`) VALUES
+(2, 'Manteau long Tailored coton', 42, 'M', 2, 'Sara', '2017-04-05 00:00:00', 3, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/coat1.jpg'),
+(3, 'Robe fleurie', 150, 'S', 3, 'John', '2017-04-03 00:00:00', 2, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/dress1.jpg'),
+(4, 'Manteau long laine Tailored', 75, 'L', 0, 'Marco', '2014-11-30 18:51:05', 3, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/coat2.jpg'),
+(5, 'Manteau tissu bouclé laine', 99, 'XL', 0, 'Marco', '2014-11-30 18:59:55', 3, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/coat3.jpg'),
+(6, 'Anorak à capuche', 66, 'XS', 0, 'Marco', '2014-11-30 21:22:49', 3, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/coat4.jpg'),
+(7, 'Robe base volantée', 66, 'XS', 0, 'Marco', '2014-11-30 21:43:32', 2, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/dress2.jpg'),
+(8, 'Robe imprimée à nœud', 66, 'XS', 0, 'Marco', '2014-11-30 21:44:26', 2, NULL, NULL, 1, 'http://localhost/ERP-Apparel-Back/web/assets/dress3.jpg'),
+(9, 'Parka coton', 66, 'XS', 0, 'Marco', '2014-11-30 22:46:40', 3, NULL, NULL, 0, 'http://localhost/ERP-Apparel-Back/web/assets/parka1.jpg');
 
 -- --------------------------------------------------------
 
@@ -55,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `apparel_brand` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
 --
 -- Contenu de la table `apparel_brand`
@@ -66,7 +80,13 @@ INSERT INTO `apparel_brand` (`id`, `name`) VALUES
 (2, 'Desigual'),
 (3, 'Lacoste'),
 (4, 'Armani'),
-(5, 'Mango');
+(5, 'Mango'),
+(6, 'brandTesttreee'),
+(7, 'brandTestPost'),
+(8, 'brandTesttreee'),
+(9, 'brandTesttreee'),
+(10, 'brandTesttreee'),
+(11, 'brandTestPost');
 
 -- --------------------------------------------------------
 
@@ -78,15 +98,15 @@ CREATE TABLE IF NOT EXISTS `apparel_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Contenu de la table `apparel_category`
 --
 
 INSERT INTO `apparel_category` (`id`, `name`) VALUES
-(2, 'Jeans'),
-(3, 'Pulls'),
+(2, 'dress'),
+(3, 'coat'),
 (4, 'Jewels'),
 (5, 'Scarfs');
 
@@ -100,20 +120,20 @@ CREATE TABLE IF NOT EXISTS `apparel_color` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=15 ;
 
 --
 -- Contenu de la table `apparel_color`
 --
 
 INSERT INTO `apparel_color` (`id`, `name`) VALUES
-(1, 'Red'),
-(2, 'Blue'),
-(3, 'Green'),
-(4, 'Yellow'),
-(5, 'Black'),
-(6, 'White'),
-(7, 'Pink');
+(1, 'red'),
+(2, 'blue'),
+(3, 'green'),
+(4, 'yellow'),
+(5, 'black'),
+(6, 'beige'),
+(7, 'pink');
 
 -- --------------------------------------------------------
 
@@ -145,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `apparel_material` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
 -- Contenu de la table `apparel_material`
@@ -155,7 +175,11 @@ INSERT INTO `apparel_material` (`id`, `name`) VALUES
 (1, 'Silk'),
 (2, 'Cotton'),
 (3, 'Wool'),
-(4, 'Denim');
+(4, 'Denim'),
+(5, 'materialTestInsert'),
+(6, 'materialTestInsert'),
+(7, 'materialTestInsert'),
+(8, 'materialTestInsert');
 
 -- --------------------------------------------------------
 
@@ -209,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `apparel_shop` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `localisation` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
 -- Contenu de la table `apparel_shop`
@@ -217,7 +241,11 @@ CREATE TABLE IF NOT EXISTS `apparel_shop` (
 
 INSERT INTO `apparel_shop` (`id`, `name`, `localisation`) VALUES
 (3, 'Shop1', 'Paris'),
-(4, 'Shop2', 'Toulouse');
+(4, 'Shop2', 'Toulouse'),
+(5, 'shopTesttreee', 'Strasbourg'),
+(6, 'shopTesttreee', 'Strasbourg'),
+(7, 'shopTesttreee', 'Strasbourg'),
+(8, 'shopTesttreee', 'Strasbourg');
 
 -- --------------------------------------------------------
 
@@ -269,7 +297,11 @@ CREATE TABLE IF NOT EXISTS `article_brand` (
 
 INSERT INTO `article_brand` (`article_id`, `brand_id`) VALUES
 (2, 1),
-(3, 1);
+(3, 1),
+(6, 6),
+(7, 8),
+(8, 9),
+(9, 10);
 
 -- --------------------------------------------------------
 
@@ -316,7 +348,13 @@ INSERT INTO `article_color` (`article_id`, `color_id`) VALUES
 (2, 2),
 (3, 4),
 (3, 5),
-(3, 7);
+(3, 7),
+(4, 2),
+(5, 6),
+(6, 6),
+(7, 3),
+(8, 5),
+(9, 6);
 
 -- --------------------------------------------------------
 
@@ -340,7 +378,11 @@ INSERT INTO `article_material` (`article_id`, `material_id`) VALUES
 (2, 2),
 (2, 4),
 (3, 1),
-(3, 3);
+(3, 3),
+(6, 5),
+(7, 6),
+(8, 7),
+(9, 8);
 
 -- --------------------------------------------------------
 
@@ -362,7 +404,11 @@ CREATE TABLE IF NOT EXISTS `article_shop` (
 
 INSERT INTO `article_shop` (`article_id`, `shop_id`) VALUES
 (2, 3),
-(3, 3);
+(3, 3),
+(6, 5),
+(7, 6),
+(8, 7),
+(9, 8);
 
 -- --------------------------------------------------------
 
@@ -435,6 +481,14 @@ INSERT INTO `user_shop` (`user_id`, `shop_id`) VALUES
 --
 
 --
+-- Contraintes pour la table `apparel_article`
+--
+ALTER TABLE `apparel_article`
+  ADD CONSTRAINT `FK_F7FD148E12469DE2` FOREIGN KEY (`category_id`) REFERENCES `apparel_category` (`id`),
+  ADD CONSTRAINT `FK_F7FD148E44F5D008` FOREIGN KEY (`brand_id`) REFERENCES `apparel_brand` (`id`),
+  ADD CONSTRAINT `FK_F7FD148E4D16C4DD` FOREIGN KEY (`shop_id`) REFERENCES `apparel_shop` (`id`);
+
+--
 -- Contraintes pour la table `apparel_user`
 --
 ALTER TABLE `apparel_user`
@@ -479,8 +533,8 @@ ALTER TABLE `article_shop`
 -- Contraintes pour la table `role_permission`
 --
 ALTER TABLE `role_permission`
-  ADD CONSTRAINT `FK_6F7DF886FED90CCA` FOREIGN KEY (`permission_id`) REFERENCES `apparel_permission` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_6F7DF886D60322AC` FOREIGN KEY (`role_id`) REFERENCES `apparel_role` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_6F7DF886D60322AC` FOREIGN KEY (`role_id`) REFERENCES `apparel_role` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_6F7DF886FED90CCA` FOREIGN KEY (`permission_id`) REFERENCES `apparel_permission` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `user_group`
