@@ -103,6 +103,12 @@ class Article {
      */
     private $onWebsite = false;
     
+    /**
+     * @ORM\Column(type="integer")
+     * @Type("int")
+     */
+    private $quantity;
+    
 
     //GETTERS
     function getId() {
@@ -160,7 +166,12 @@ class Article {
     function getOnWebsite() {
         return $this->onWebsite;
     }
+    
+    function getQuantity() {
+        return $this->quantity;
+    }
 
+    
         
     //SETTERS
     function setId($id) {
@@ -220,7 +231,12 @@ class Article {
     function setOnWebsite($onWebsite) {
         $this->onWebsite = $onWebsite;
     }
+    
+    function setQuantity($quantity) {
+        $this->quantity = $quantity;
+    }
 
+    
 
 
 
