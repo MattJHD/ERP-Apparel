@@ -31,19 +31,27 @@ class MailController extends Controller{
      */
     public function postMailAction(Request $request){
             
-            /*$name = $_POST['last_name'];
+           /* $serializer = SerializerBuilder::create()->build();
+        
+            //$jsonData = '{"id":"","role":"","name":"nameTestPostUser","firstname":"firstnameTestPostUser","login":"loginTestPostUser","password":"passwordtestPostUser","email":"emailTestPostUser","phone":"123456","function":"functionTestPostUser","date_creation":"","isactive":"1"}';
+            $jsonData = $request->getContent();
+            dump($jsonData);
+            die();*/
+            $name = $_POST['last_name'];
             $firstName = $_POST['first_name'];
             $email = $_POST['email'];
-            $body = $_POST['message'];*/
+            $body = $_POST['message'];
     
-            $name = 'testname';
+            /*$name = 'testname';
             $firstName = 'testfirstname';
             $email = 'testmail';
-            $body = 'bla bla bla';
+            $body = 'bla bla bla';*/
 
-            $this->get('mailer.mailer_website')->sendMail($name, $firstName, $email, $body);
+            $this->get('mailer.contact_mailer')->sendMail($name, $firstName, $email, $body);
             
-            return new Response("OK");
+            //return new Response("OK");
+
+            return $this->redirect('http://localhost/ERP-Apparel-Website/index.html#/contact/success');
        
         
     }

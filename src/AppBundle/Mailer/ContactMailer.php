@@ -60,4 +60,42 @@ class ContactMailer
             return $this->mailer->send($message);
 
     }
+
+
+
+    public function sendMail($name, $firstName, $email, $body)
+    {
+        $message = \Swift_Message::newInstance();
+            
+            $appPath = $this->kernelRootDir;
+            
+            $bodyTxt = $this->templating->render('email/contact.txt.twig',[
+                'name'=>$name,
+                'firstName'=>$firstName,
+                'email'=>$email,
+                'body'=>$body,
+            ]);
+            
+            $bodyHtml = $this ->templating->render('email/contact.html.twig',[
+                'name'=>$name,
+                'firstName'=>$firstName,
+                'email'=>$email,
+                'body'=>$body,
+            ]);
+
+            $message 
+                        ->setFrom($email)
+                        ->setTo($this->mailerToEmail)
+                        ->setSubject('test')
+                        ->setBody($bodyTxt, 'text/plain')
+                        ->addPart($bodyHtml, 'text/html');
+            
+          
+
+//            $this->mailer->send($message);
+            // return pour le $count dans DefaultController 
+            return $this->mailer->send($message);
+
+
+    }
 }
