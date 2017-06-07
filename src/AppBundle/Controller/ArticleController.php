@@ -23,7 +23,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class ArticleController extends Controller {
     
     /**
-     * @Route("/articles")
+     * @Route("/articles", name="articles")
      * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des articles de l'application",
@@ -65,21 +65,24 @@ class ArticleController extends Controller {
     }
     
     /**
-     * @Route("/articles/website")
+     * @Route("/articles/website/{shop}", requirements={"shop":"\d+"})
      * @Method("GET")
      * @ApiDoc(
-     *  description="Récupère les articles à afficher",
+     *  description="Récupère les articles à afficher pour un magasin donné",
      *  filters={
      *      {"name"="articlesWebsite", "dataType"="string"}
      *  },
      *    output= { "class"=Article::class, "collection"=false}
      * )
      */
-    public function getArticlesWebsiteAction(){
+    public function getArticlesWebsiteAction($shop){
         //jms
         $serializer = SerializerBuilder::create()->build();
         $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository(Article::class)->findByOnWebsite(true);
+        $articles = $em->getRepository(Article::class)->findBy(array('onWebsite' => true, 'shop' => $shop));
+        //$articles = $em->getRepository(Article::class)->findByShop($shop);
+        //$articlesToDisplay = $em->getRepository(Article::class)->findBy(array('onWebsite' => true, 'articles' => $articles->getShop()));
+        //$articles = $em->getRepository(Article::class)->findByOnWebsite(true);
          if(empty($articles))
         {
             return new JsonResponse(['message' => 'Article not found'], Response::HTTP_NOT_FOUND);
