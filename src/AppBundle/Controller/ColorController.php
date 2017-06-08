@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Color;
 use AppBundle\Form\ColorType;
@@ -104,7 +105,7 @@ class ColorController extends Controller{
             $em->persist($color);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -113,7 +114,7 @@ class ColorController extends Controller{
     
     /**
      * @Route("/colors/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'une catégorie",
      *  filters={
@@ -122,7 +123,7 @@ class ColorController extends Controller{
      *    output= { "class"=Color::class, "collection"=false}
      * )
      */
-    public function patchColorAction($id, Request $request){
+    public function putColorAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -138,7 +139,7 @@ class ColorController extends Controller{
             $em->merge($thisColor);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
             return new JsonResponse("ERROR-NOT-VALID");
         }
