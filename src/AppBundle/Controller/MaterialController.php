@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Material;
 use AppBundle\Form\MaterialType;
@@ -103,7 +104,7 @@ class MaterialController extends Controller{
             $em->persist($material);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -112,7 +113,7 @@ class MaterialController extends Controller{
     
     /**
      * @Route("/materials/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'une matière",
      *  filters={
@@ -121,7 +122,7 @@ class MaterialController extends Controller{
      *    output= { "class"=Material::class, "collection"=false}
      * )
      */
-    public function patchMaterialAction($id, Request $request){
+    public function putMaterialAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -137,7 +138,7 @@ class MaterialController extends Controller{
             $em->merge($thisMaterial);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
             return new JsonResponse("ERROR-NOT-VALID");
         }
