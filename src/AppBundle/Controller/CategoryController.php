@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Category;
 use AppBundle\Form\CategoryType;
@@ -104,7 +105,7 @@ class CategoryController extends Controller{
             $em->persist($category);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -113,7 +114,7 @@ class CategoryController extends Controller{
     
     /**
      * @Route("/categories/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'une catégorie",
      *  filters={
@@ -122,7 +123,7 @@ class CategoryController extends Controller{
      *    output= { "class"=Category::class, "collection"=false}
      * )
      */
-    public function patchCategoryAction($id, Request $request){
+    public function putCategoryAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -139,7 +140,7 @@ class CategoryController extends Controller{
             //$em->persist($article);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
 //            $errors = $form->getErrors(true);
 //            foreach($errors as $key => $value){
