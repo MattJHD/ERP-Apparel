@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Shop;
 
@@ -100,7 +101,7 @@ class ShopController extends Controller{
             $em->persist($shop);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -109,7 +110,7 @@ class ShopController extends Controller{
     
     /**
      * @Route("/shops/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'un magasin",
      *  filters={
@@ -118,7 +119,7 @@ class ShopController extends Controller{
      *    output= { "class"=Material::class, "collection"=false}
      * )
      */
-    public function patchMaterialAction($id, Request $request){
+    public function putMaterialAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -134,7 +135,7 @@ class ShopController extends Controller{
             $em->merge($thisShop);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
             return new JsonResponse("ERROR-NOT-VALID");
         }
