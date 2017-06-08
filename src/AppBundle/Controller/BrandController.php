@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Brand;
 use AppBundle\Form\BrandType;
@@ -105,7 +106,7 @@ class BrandController extends Controller{
             $em->persist($brand);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -114,7 +115,7 @@ class BrandController extends Controller{
     
     /**
      * @Route("/brands/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'une marque",
      *  filters={
@@ -123,7 +124,7 @@ class BrandController extends Controller{
      *    output= { "class"=Brand::class, "collection"=false}
      * )
      */
-    public function patchUserAction($id, Request $request){
+    public function putUserAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -140,7 +141,7 @@ class BrandController extends Controller{
             //$em->persist($article);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
 //            $errors = $form->getErrors(true);
 //            foreach($errors as $key => $value){
