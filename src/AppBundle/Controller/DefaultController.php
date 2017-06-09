@@ -19,4 +19,12 @@ class DefaultController extends Controller
         ]);
     }
     
+    /**
+     * @Route("/api", name="api")
+     */
+    public function apiAction(Request $request)
+    {
+        return new Response(sprintf('Logged in as %s', $this->getUser()->getUsername()));
+    }
+    
 }
