@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -109,7 +110,7 @@ class RoleController extends Controller{
             $em->persist($role);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -118,7 +119,7 @@ class RoleController extends Controller{
     
     /**
      * @Route("/roles/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'un role",
      *  filters={
@@ -127,7 +128,7 @@ class RoleController extends Controller{
      *    output= { "class"=Role::class, "collection"=false}
      * )
      */
-    public function patchGroupAction($id, Request $request){
+    public function putGroupAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -143,7 +144,7 @@ class RoleController extends Controller{
             $em->merge($thisRole);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PATCH");
         } else {
             return new JsonResponse("ERROR-NOT-VALID");
         }
