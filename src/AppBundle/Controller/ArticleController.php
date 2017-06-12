@@ -134,41 +134,56 @@ class ArticleController extends Controller {
         
         $jsonData = $request->getContent();
         //file_put_contents(__DIR__."/debug_tmp", var_export($jsonData, true));
-
+        
+//        $data = $tabData[0];
+//        $count = $tabData[1]['count'];
+//        $jsonData = json_encode($data);
+        
         $article = $serializer->deserialize($jsonData, Article::class, 'json');
         
         $errors = $this->get("validator")->validate($article);
        
         if(count($errors) == 0){
-            $em = $this->getDoctrine()->getManager();
             
-            $category = $em->merge($article->getCategory());
-            $article->setCategory($category);
-      
-            $brand = $em->merge($article->getBrand());
-            $article->setBrand($brand);
-            
-            $shop = $em->merge($article->getShop());
-            $article->setShop($shop);
-            
-            $materialsObject = $article->getMaterials();
-            $materialsCollection = new ArrayCollection();
-            foreach ($materialsObject as $key => $element) {
-                $materialsCollection ->add($em->merge($element));
-            }
-            $article->setMaterials($materialsCollection);
-            
-
-            $colorsObject = $article->getColors();
-            $colorsCollection = new ArrayCollection();
-            foreach($colorsObject as $key => $element) { 
-                $colorsCollection -> add($em->merge($element));
+//        for($i = 0 ; $i<$count ; $i++){  
+//                $clonedArticle = clone($article);
                 
-            }
-            $article->setColors($colorsCollection);
+                $em = $this->getDoctrine()->getManager();
+                
             
-            $em->persist($article);
-            $em->flush();
+            
+                $category = $em->merge($article->getCategory());
+                $article->setCategory($category);
+
+                $brand = $em->merge($article->getBrand());
+                $article->setBrand($brand);
+
+                $shop = $em->merge($article->getShop());
+                $article->setShop($shop);
+
+                $materialsObject = $article->getMaterials();
+                $materialsCollection = new ArrayCollection();
+                foreach ($materialsObject as $key => $element) {
+                    $materialsCollection ->add($em->merge($element));
+                }
+                $article->setMaterials($materialsCollection);
+
+
+                $colorsObject = $article->getColors();
+                $colorsCollection = new ArrayCollection();
+                foreach($colorsObject as $key => $element) { 
+                    $colorsCollection -> add($em->merge($element));
+
+                }
+                $article->setColors($colorsCollection);
+
+                //$this->get('upload.service')->uploadArticleFile($article);
+                
+                
+                $em->persist($article);
+            
+                $em->flush();
+//        }
        
             return new JsonResponse("OK POST");
         }  else {
@@ -220,8 +235,5 @@ class ArticleController extends Controller {
             return new JsonResponse("ERROR-NOT-VALID");
         }
     }
-    
-    
-    
     
 }

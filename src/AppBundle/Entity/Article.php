@@ -78,22 +78,10 @@ class Article {
      * @Type("boolean")
      */
     private $solded = false;
-    
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Type("string")
-     */
-    private $soldBy;
-    
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Type("DateTime<'Y-m-d'>")
-     */
-    private $soldAt;
 
      /**
-     * @ORM\Column(type="text")
-     * @Type("text")
+     * @ORM\Column(type="text", nullable=true)
+     * @Type("string")
      */
     private $link;
 
@@ -103,7 +91,18 @@ class Article {
      * @Type("boolean")
      */
     private $onWebsite = false;
-
+    
+    /**
+     * @ORM\Column(type="integer")
+     * @Type ("int")
+     */
+    private $quantity;
+    
+    /**
+     *@ORM\OneToOne(targetEntity="Article_Solded", mappedBy="article", cascade={"persist", "merge"})
+     * @Type("AppBundle\Entity\Article_Solded")
+     */
+    private $articleSolded;
     
 
     //GETTERS
@@ -163,7 +162,16 @@ class Article {
     function getOnWebsite() {
         return $this->onWebsite;
     }
+    
+    function getQuantity() {
+        return $this->quantity;
+    }
 
+    function getArticleSolded() {
+        return $this->articleSolded;
+    }
+
+    
     
         
     //SETTERS
@@ -226,6 +234,15 @@ class Article {
         $this->onWebsite = $onWebsite;
     }
     
+    function setQuantity($quantity) {
+        $this->quantity = $quantity;
+    }
+
+    function setArticleSolded($articleSolded) {
+        $this->articleSolded = $articleSolded;
+    }
+
+        
 
     
 
