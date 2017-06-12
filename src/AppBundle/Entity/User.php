@@ -86,12 +86,6 @@ class User implements UserInterface{
     private $phone;
     
     /**
-     * @ORM\Column(type="string")
-     * @Type("string")
-     */
-    private $function;
-    
-    /**
      * @ORM\Column(type="datetime")
      * @Type("DateTime<'Y-m-d'>")
      */
@@ -128,6 +122,7 @@ class User implements UserInterface{
        $this->shops = new \Doctrine\Common\Collections\ArrayCollection();
        
        $this->salt=md5(time());
+       $this->date_creation = new \DateTime();
     }
     
     //GETTER
@@ -165,10 +160,6 @@ class User implements UserInterface{
 
     function getPhone() {
         return $this->phone;
-    }
-
-    function getFunction() {
-        return $this->function;
     }
 
     function getDate_creation() {
@@ -228,10 +219,6 @@ class User implements UserInterface{
 
     function setPhone($phone) {
         $this->phone = $phone;
-    }
-
-    function setFunction($function) {
-        $this->function = $function;
     }
 
     function setDate_creation($date_creation) {

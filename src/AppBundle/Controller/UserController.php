@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
@@ -138,9 +139,9 @@ class UserController extends Controller{
             
             $this->get('mailer.contact_mailer')->sendPwd($user);
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
-            return $errors;
+            return new JsonResponse("ERROR-NOT-VALID");
         }
         
     }
@@ -173,7 +174,7 @@ class UserController extends Controller{
             //$em->persist($article);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PATCH");
         } else {
 //            $errors = $form->getErrors(true);
 //            foreach($errors as $key => $value){
