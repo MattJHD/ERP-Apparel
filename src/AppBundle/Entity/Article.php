@@ -93,7 +93,7 @@ class Article {
 
      /**
      * @ORM\Column(type="text")
-     * @Type("text")
+     * @Type("string")
      */
     private $link;
 
