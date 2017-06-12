@@ -85,7 +85,6 @@ class Article {
      */
     private $link;
 
-
     /**
      * @ORM\Column(type="boolean")
      * @Type("boolean")
@@ -158,7 +157,6 @@ class Article {
         return $this->link;
     }
 
-    
     function getOnWebsite() {
         return $this->onWebsite;
     }
