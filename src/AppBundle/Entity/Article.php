@@ -92,16 +92,11 @@ class Article {
     private $soldAt;
 
      /**
-     * @ORM\Column(type="string")
-     * @Type("string")
+     * @ORM\Column(type="text")
+     * @Type("text")
      */
     private $link;
-    
-    /**
-     * @var null|UploadedFile
-     * @Assert\Image()
-     */
-    private $file;
+
 
     /**
      * @ORM\Column(type="boolean")
@@ -163,10 +158,7 @@ class Article {
     function getLink() {
         return $this->link;
     }
-    
-    function getFile() {
-        return $this->file;
-    }
+
     
     function getOnWebsite() {
         return $this->onWebsite;
@@ -229,9 +221,6 @@ class Article {
         $this->link = $link;
     }
     
-    function setFile(UploadedFile $file = null) {
-        $this->file = $file;
-    }
     
     function setOnWebsite($onWebsite) {
         $this->onWebsite = $onWebsite;
