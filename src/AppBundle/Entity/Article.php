@@ -96,18 +96,19 @@ class Article {
      * @Type("string")
      */
     private $link;
+    
+    /**
+     * @var null|UploadedFile
+     * @Assert\Image()
+     */
+    private $file;
 
     /**
      * @ORM\Column(type="boolean")
      * @Type("boolean")
      */
     private $onWebsite = false;
-    
-    /**
-     * @ORM\Column(type="integer")
-     * @Type("int")
-     */
-    private $quantity;
+
     
 
     //GETTERS
@@ -162,13 +163,13 @@ class Article {
     function getLink() {
         return $this->link;
     }
-
-    function getOnWebsite() {
-        return $this->onWebsite;
+    
+    function getFile() {
+        return $this->file;
     }
     
-    function getQuantity() {
-        return $this->quantity;
+    function getOnWebsite() {
+        return $this->onWebsite;
     }
 
     
@@ -227,14 +228,15 @@ class Article {
     function setLink($link) {
         $this->link = $link;
     }
-
+    
+    function setFile(UploadedFile $file = null) {
+        $this->file = $file;
+    }
+    
     function setOnWebsite($onWebsite) {
         $this->onWebsite = $onWebsite;
     }
     
-    function setQuantity($quantity) {
-        $this->quantity = $quantity;
-    }
 
     
 
