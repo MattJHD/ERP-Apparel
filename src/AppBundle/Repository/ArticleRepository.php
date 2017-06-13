@@ -9,14 +9,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class ArticleRepository extends EntityRepository
 {
-    public function countArticlesSolded(){
-        $qb = $this->createQueryBuilder('article');
-        
-        $qb->select($qb->expr()->count('article.id'));
-        
-        return $qb->getQuery()->getSingleScalarResult();
-    }
-    
     public function countArticleQuantity($id){
         $qb = $this->_em->createQueryBuilder()
                 ->select("article.quantity")

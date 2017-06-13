@@ -24,7 +24,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class ArticleSoldedController extends Controller{
     
     /**
-     * @Route("/articles/solded")
+     * @Route("/articles/sales")
      * @Method("GET")
      * @ApiDoc(
      *  description="Récupère la liste des articles vendu de l'application",
@@ -100,4 +100,19 @@ class ArticleSoldedController extends Controller{
             return new JsonResponse("ERROR-NOT-VALID");
         }
     }
+    
+    /**
+     * @Route("/test")
+     * @Method("GET")
+     */
+    public function getData(){
+         $em = $this->getDoctrine()->getManager();
+         $allSales = $em->getRepository(Article_Solded::class)->getSales();
+         
+         
+         dump($data);
+         die();
+    }
+    
+    
 }
