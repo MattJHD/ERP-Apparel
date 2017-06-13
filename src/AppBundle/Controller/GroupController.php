@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use AppBundle\Entity\Group;
 use AppBundle\Form\GroupType;
@@ -103,7 +104,7 @@ class GroupController extends Controller{
             $em->persist($group);
             $em->flush();
             
-            return new Response("OK");
+            return new JsonResponse("OK");
         }else{
             return $errors;
         }
@@ -112,7 +113,7 @@ class GroupController extends Controller{
     
     /**
      * @Route("/groups/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'un groupe",
      *  filters={
@@ -121,7 +122,7 @@ class GroupController extends Controller{
      *    output= { "class"=Group::class, "collection"=false}
      * )
      */
-    public function patchGroupAction($id, Request $request){
+    public function putGroupAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -137,7 +138,7 @@ class GroupController extends Controller{
             $em->merge($thisGroup);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
             return new JsonResponse("ERROR-NOT-VALID");
         }
