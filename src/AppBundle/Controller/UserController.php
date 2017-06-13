@@ -172,7 +172,7 @@ class UserController extends Controller{
     
     /**
      * @Route("/users/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'un utilisateur",
      *  filters={
@@ -181,7 +181,7 @@ class UserController extends Controller{
      *    output= { "class"=User::class, "collection"=false}
      * )
      */
-    public function patchUserAction($id, Request $request){
+    public function putUserAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -198,7 +198,7 @@ class UserController extends Controller{
             //$em->persist($article);
             
             $em->flush();
-            return new JsonResponse("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
 //            $errors = $form->getErrors(true);
 //            foreach($errors as $key => $value){
