@@ -138,7 +138,11 @@ class ArticleSoldedController extends Controller{
          $allSales = $em->getRepository(Article_Solded::class)->getSales();
          
          $salesByUser = $em->getRepository(Article_Solded::class)->getSalesByUser("Sara");
-         dump($salesByUser);
+         
+         $countSalesByUser = $em->getRepository(Article_Solded::class)->getCountSales("mdurand");
+         
+         $bestSales = $em->getRepository(Article_Solded::class)->getBestSales();
+         dump($bestSales);
          die();
     }
     
