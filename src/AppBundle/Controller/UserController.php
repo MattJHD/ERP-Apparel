@@ -103,6 +103,7 @@ class UserController extends Controller{
         
         $data = $serializer->serialize($objectUser, 'json');
         
+        
         return new Response($data);
         
     }
