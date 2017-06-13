@@ -84,7 +84,7 @@ class UserController extends Controller{
     }
     
     /**
-     * @Route("/users/username={username}", requirements={"username":"[a-zA-Z0-9-]+"})
+     * @Route("/users?username={username}", requirements={"username":"[a-zA-Z0-9-]+"})
      * @Method("GET")
      * @ApiDoc(
      *  description="Récupère un utilisateur par son username",
