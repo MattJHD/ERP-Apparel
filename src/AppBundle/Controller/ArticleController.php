@@ -194,7 +194,7 @@ class ArticleController extends Controller {
     
     /**
      * @Route("/articles/{id}", requirements={"id":"\d+"})  
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'un article",
      *  filters={
@@ -203,7 +203,7 @@ class ArticleController extends Controller {
      *    output= { "class"=Article::class, "collection"=false}
      * )
      */
-    public function patchArticleAction($id, Request $request){
+    public function putArticleAction($id, Request $request){
         
         $serializer = SerializerBuilder::create()->build();
         
@@ -225,7 +225,7 @@ class ArticleController extends Controller {
             //$em->persist($article);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new JsonResponse("OK PUT");
         } else {
 //            $errors = $form->getErrors(true);
 //            foreach($errors as $key => $value){
