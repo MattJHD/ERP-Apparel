@@ -111,7 +111,7 @@ class PermissionController extends Controller{
     
     /**
      * @Route("/permissions/{id}", requirements={"id":"\d+"})
-     * @Method("PATCH")
+     * @Method("PUT")
      * @ApiDoc(
      *  description="Modification d'un permissions",
      *  filters={
@@ -120,7 +120,7 @@ class PermissionController extends Controller{
      *    output= { "class"=Permission::class, "collection"=false}
      * )
      */
-    public function patchPermissionAction($id, Request $request){
+    public function putPermissionAction($id, Request $request){
         $serializer = SerializerBuilder::create()->build();
         
         $em = $this->getDoctrine()->getManager();
@@ -136,7 +136,7 @@ class PermissionController extends Controller{
             $em->merge($thisPermission);
             
             $em->flush();
-            return new Response("OK PATCH");
+            return new Response("OK");
         } else {
             return new JsonResponse("ERROR-NOT-VALID");
         }
