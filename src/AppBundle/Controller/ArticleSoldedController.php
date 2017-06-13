@@ -47,6 +47,34 @@ class ArticleSoldedController extends Controller{
     }
     
     /**
+     * @Route("/articles/sales/{id}", requirements={"id":"\d+"})
+     * @Method("GET")
+     * @ApiDoc(
+     *  description="Récupère un article vendu par son id",
+     *  filters={
+     *      {"name"="articles_solded", "dataType"="string"}
+     *  },
+     *    output= { "class"=Article_Solded::class, "collection"=true, "groups"={"Article_Solded"} }
+     * )
+     */
+    public function getArticleAction($id){
+        //jms
+        $serializer = SerializerBuilder::create()->build();
+
+        $em = $this->getDoctrine()->getManager();
+        $articleSolded = $em->getRepository(Article_Solded::class)->find($id);
+        
+        if(empty($article))
+        {
+            return new JsonResponse(['message' => 'Article not found'], Response::HTTP_NOT_FOUND);
+        }
+        
+        $data = $serializer->serialize($articleSolded, 'json');
+        
+        return new Response($data);
+    }
+    
+    /**
      * 
      * @Method("POST")
      * @Route("/articles/sales")
@@ -109,8 +137,8 @@ class ArticleSoldedController extends Controller{
          $em = $this->getDoctrine()->getManager();
          $allSales = $em->getRepository(Article_Solded::class)->getSales();
          
-         
-         dump($data);
+         $salesByUser = $em->getRepository(Article_Solded::class)->getSalesByUser("Sara");
+         dump($salesByUser);
          die();
     }
     
