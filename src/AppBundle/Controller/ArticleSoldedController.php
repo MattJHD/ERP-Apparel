@@ -13,6 +13,7 @@ use JMS\Serializer\SerializerBuilder;
 use AppBundle\Entity\Article_Solded;
 use AppBundle\Entity\Article;
 
+use Symfony\Component\Validator\Constraints\DateTime;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
@@ -48,7 +49,7 @@ class ArticleSoldedController extends Controller{
     /**
      * 
      * @Method("POST")
-     * @Route("/articles/solded")
+     * @Route("/articles/sales")
      * @ApiDoc(
      *  description="Création d'un article vendu et décrémente Article",
      *  filters={
@@ -76,13 +77,23 @@ class ArticleSoldedController extends Controller{
         $errors = $this->get("validator")->validate($articleSolded);
        
         if(count($errors) == 0){
-            
-            $article = $em->merge($articleSolded->getArticle());
-            $articleSolded->setArticle($article);
-            
-            $em->persist($articleSolded);
-            $em->flush();
-            $updateQuantity = $em->getRepository(Article::class)->decrementQuantityArticle($newQuantity, $thisArticleId);
+            if($thisArticleQuantity !== 0){
+                
+                $article = $em->merge($articleSolded->getArticle());
+                $articleSolded->setArticle($article);
+                
+                $articleSolded->setSoldAt(new \DateTime('now'));
+                
+                $soldBy = $em->merge($articleSolded->getSoldBy());
+                $articleSolded->setSoldBy($soldBy);
+
+                $em->persist($articleSolded);
+                $em->flush();
+                $updateQuantity = $em->getRepository(Article::class)->decrementQuantityArticle($newQuantity, $thisArticleId);
+
+            }else{
+                return new JsonResponse("Article non disponible");
+            }
             
             return new JsonResponse("OK POST");
         }else {

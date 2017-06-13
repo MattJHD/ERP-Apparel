@@ -38,8 +38,8 @@ class Article_Solded {
     private $soldAt;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Type("string")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="id",cascade={"persist"})
+     * @Type("AppBundle\Entity\User")
      */
     private $soldBy;
     
