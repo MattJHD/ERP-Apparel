@@ -98,7 +98,7 @@ class Article {
     private $quantity;
     
     /**
-     *@ORM\OneToOne(targetEntity="Article_Solded", mappedBy="article", cascade={"persist", "merge"})
+     *@ORM\OneToMany(targetEntity="Article_Solded", mappedBy="article")
      * @Type("AppBundle\Entity\Article_Solded")
      */
     private $articleSolded;
