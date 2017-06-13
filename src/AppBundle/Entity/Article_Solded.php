@@ -26,7 +26,7 @@ class Article_Solded {
     private $id;
     
     /**
-     * @ORM\OneToOne(targetEntity="Article", inversedBy="articleSolded", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="articleSolded", cascade={"persist"})
      * @Type("AppBundle\Entity\Article")
      */
     private $article;
