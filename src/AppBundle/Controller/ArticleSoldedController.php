@@ -64,7 +64,7 @@ class ArticleSoldedController extends Controller{
         $em = $this->getDoctrine()->getManager();
         $articleSolded = $em->getRepository(Article_Solded::class)->find($id);
         
-        if(empty($article))
+        if(empty($articleSolded))
         {
             return new JsonResponse(['message' => 'Article not found'], Response::HTTP_NOT_FOUND);
         }
