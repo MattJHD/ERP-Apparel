@@ -146,5 +146,19 @@ class ArticleSoldedController extends Controller{
          die();
     }
     
+    /**
+     * @Route("/classement")
+     * @Method("GET")
+     */
+    public function getClassement(){
+        $serializer = SerializerBuilder::create()->build();
+        $em = $this->getDoctrine()->getManager();
+        
+        $bestSales = $em->getRepository(Article_Solded::class)->getBestSales();
+        
+        $data = $serializer->serialize($bestSales, 'json');
+        
+        return new Response($data);
+    }
     
 }

@@ -86,6 +86,28 @@ class ArticleSoldedRepository extends EntityRepository{
         return $results;
     }
     
-
+    /**
+     * Recupere le meilleur vendeur sur mois ou semaine
+     * 
+     */
+    public function getBestSeller($user){
+        $qb = $this->_em->createQueryBuilder()
+                ;
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+    
+    /**
+     * Recupere les ventes d'un article sur un période donnee
+     * 
+     */
+    public function getSalesOnPeriod($user){
+        $qb = $this->_em->createQueryBuilder()
+                ;
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
     
 }
